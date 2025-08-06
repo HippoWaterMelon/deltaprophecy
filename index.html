@@ -133,7 +133,6 @@
       top: -50px;
     }
 
-    /* Final style ghost animations - opposite to red counterparts */
     body.final-theme #ghostIcon {
       animation: pulseFinalGhost1 2s infinite 1s;
     }
@@ -151,7 +150,6 @@
       top: -50px;
     }
 
-    /* Red overlay canvases */
     #ghostIconRed {
       z-index: 11;
       pointer-events: none;
@@ -567,13 +565,12 @@
     </div>
   </div>
 
-  <!-- TESTING -->
   <div style="height: 10px;"></div>
   <button onclick="toggleAdvancedSettings()" class="custom-file-upload">Advanced Settings</button>
   
   <div id="advancedSettings" style="display: none; margin-top: 10px;">
     <div id="advancedGrid">
-      <!-- Font -->
+
       <div class="advancedCell">
         <div id="fontPreview" class="previewBox" style="font-family: 'ProphecyType';">
           <span id="fontPreviewText">Aa</span>
@@ -585,7 +582,6 @@
         </label>
       </div>
   
-      <!-- Text Texture -->
       <div class="advancedCell">
         <img id="textPreview" class="previewBox" />
         <div class="fileLabel">Text Texture</div>
@@ -595,7 +591,6 @@
         </label>
       </div>
   
-      <!-- Panel -->
       <div class="advancedCell">
         <img id="panelPreview" class="previewBox" />
         <div class="fileLabel">Panel Texture</div>
@@ -605,7 +600,6 @@
         </label>
       </div>
   
-      <!-- Background -->
       <div class="advancedCell">
         <img id="bgPreview" class="previewBox" />
         <div class="fileLabel">Background Texture</div>
@@ -623,7 +617,6 @@
 
     </div>
   </div>
-  <!-- TESTING -->
   
   <div style="height: 30px;"></div>
   <div id="sineWrapper">
@@ -684,7 +677,6 @@
     let backgroundTileRed = null;
     let backgroundScrollOffset = 0;
 
-    // Define all available panels with their preset text and style
     const panelPresets = {
       'roots': {
         text: 'Roots',
@@ -905,8 +897,7 @@
       scrollOffset = (scrollOffset + 1) % placeholder.width;
       
       const canvasSize = 256;
-      
-      // Draw regular panel
+
       ctx.clearRect(0, 0, 512, 512);
       ctx.imageSmoothingEnabled = false;
       resultCanvas = createResultCanvas(placeholder, canvasSize);
@@ -920,7 +911,6 @@
         ctx.drawImage(resultCanvas, 0, 0, resultCanvas.width, resultCanvas.height, scaledX, scaledY, scaledW, scaledH);
       }
 
-      // Draw red panel if final style and red texture exists
       if (placeholderRed) {
         ctxRed.clearRect(0, 0, 512, 512);
         ctxRed.imageSmoothingEnabled = false;
@@ -950,7 +940,6 @@
       const scaledX = (512 - scaledW) / 2;
       const scaledY = (256 - scaledH) / 2 - parseInt(imgYOffset.value, 10);
 
-      // Draw regular ghost icons
       gtx.clearRect(0, 0, 512, 512);
       gtx.imageSmoothingEnabled = false;
       gtx.setTransform(1, 0, 0, 1, offset1, offset1);
@@ -964,7 +953,6 @@
       gtx2.drawImage(resultCanvas, 0, 0, resultCanvas.width, resultCanvas.height, scaledX, scaledY, scaledW, scaledH);
       gtx2.setTransform(1, 0, 0, 1, 0, 0);
 
-      // Draw red ghost icons if red canvas exists
       if (resultCanvasRed) {
         gtxRed.clearRect(0, 0, 512, 512);
         gtxRed.imageSmoothingEnabled = false;
@@ -993,25 +981,21 @@
       const scale = parseFloat(imgScale.value);
       const yOffset = -parseInt(imgYOffset.value, 10);
       
-      // Scale the background tile size
       const scaledTileWidth = backgroundTile.width * scale;
       const scaledTileHeight = backgroundTile.height * scale;
       
       const offset = (backgroundScrollOffset * scale) % scaledTileWidth;
 
-      // Draw scaled background tiles
       for (let y = -offset + yOffset; y < 256 + scaledTileHeight + yOffset; y += scaledTileHeight) {
         for (let x = -offset; x < 512 + scaledTileWidth; x += scaledTileWidth) {
           bgCtx.drawImage(backgroundTile, x, y, scaledTileWidth, scaledTileHeight);
         }
       }
 
-      // Draw red background if it exists
       if (backgroundTileRed) {
         bgRedCtx.clearRect(0, 0, 512, 256);
         bgRedCtx.imageSmoothingEnabled = false;
 
-        // Draw scaled red background tiles
         for (let y = -offset + yOffset; y < 256 + scaledTileHeight + yOffset; y += scaledTileHeight) {
           for (let x = -offset; x < 512 + scaledTileWidth; x += scaledTileWidth) {
             bgRedCtx.drawImage(backgroundTileRed, x, y, scaledTileWidth, scaledTileHeight);
@@ -1025,11 +1009,9 @@
       const imageX = (512 - scaledW) / 2; 
       const imageY = 64 + yOffset; 
 
-      // Scale the gradient radii based on the scale factor
       const radiusX = 160 * scale; 
       const radiusY = 100 * scale;  
 
-      // Apply gradient to regular background
       bgCtx.save();
       bgCtx.translate(imageX + scaledW/2, imageY);
       bgCtx.scale(radiusX / radiusY, 1); 
@@ -1044,7 +1026,6 @@
       bgCtx.fillRect(0, 0, 512, 256); 
       bgCtx.restore();
 
-      // Apply gradient to red background if it exists
       if (backgroundTileRed) {
         bgRedCtx.save();
         bgRedCtx.translate(imageX + scaledW/2, imageY);
@@ -1100,7 +1081,6 @@
       return `./assets/depth/${name}-final-red.png`;
     }
 
-    // Global flags for custom assets
     let customTextTexture = null;
     let customBackgroundTile = null;
     let customPanelTexture = null;
@@ -1115,7 +1095,6 @@
         customBackgroundTile ? Promise.resolve(customBackgroundTile) : loadImageFromFile(getAssetPath('depth-darker-new'))
       ];
 
-      // Load red textures if final style and not using custom assets
       if (isFinalStyle && !isCustom) {
         promises.push(
           loadImageFromFile(getRedAssetPath('depth-blue')),
@@ -1132,7 +1111,6 @@
         backgroundTile = bgTile;
         textContainer.style.backgroundImage = `url(${textBG.toDataURL()})`;
 
-        // Handle red textures for final style
         if (isFinalStyle && !isCustom && redTile && redTextBG && redBgTile) {
           placeholderRed = redTile;
           backgroundTileRed = redBgTile;
@@ -1142,7 +1120,6 @@
           backgroundTileRed = null;
         }
 
-        // Show/hide red elements based on final style
         const redElements = ['#textContainerRed', '#ghostIconRed', '#ghostIcon2Red', '#panelRed', '#backgroundRed'];
         redElements.forEach(selector => {
           const element = document.querySelector(selector);
@@ -1187,45 +1164,37 @@
     });
 
     window.addEventListener('load', () => {
-      // Get random panel
       const randomPanelName = getRandomPanel();
       const randomPanel = panelPresets[randomPanelName];
       
       console.log(`Loading random panel: ${randomPanelName}`);
       
-      // Set the style first
       styleSelect.value = randomPanel.style;
       document.body.classList.toggle('susie-theme', randomPanel.style === 'susie');
       document.body.classList.toggle('final-theme', randomPanel.style === 'final');
       
-      // Set the text
       textInput.value = randomPanel.text;
       const formattedText = randomPanel.text.replace(/\\n/g, '<br>');
       textContainer.innerHTML = formattedText;
       textContainerRed.innerHTML = formattedText;
       
-      // Load the corresponding image
       const defaultImg = new Image();
       defaultImg.onload = () => {
         maskImage = defaultImg;
-        // Reload assets with the correct style, then draw
         reloadAssetsAndRedraw();
         drawPanel();
         tryStartGhost();
       };
       defaultImg.onerror = () => {
         console.error(`Failed to load image: ./assets/base-panels/${randomPanelName}.png`);
-        // Fallback to heroes-1 if the random image fails
         defaultImg.src = './assets/base-panels/heroes-1.png';
       };
       defaultImg.src = `./assets/base-panels/${randomPanelName}.png`;
 
-      // Set the Y offset if specified
       if (randomPanel.yOffset !== undefined) {
         imgYOffset.value = randomPanel.yOffset;
         document.getElementById('imgYOffsetValue').textContent = randomPanel.yOffset + 'px';
       } else {
-        // Reset to default if no custom offset
         imgYOffset.value = 0;
         document.getElementById('imgYOffsetValue').textContent = '0px';
       }
@@ -1248,8 +1217,6 @@
     requestAnimationFrame(animateSineWrapper);
     
     styleSelect.addEventListener('change', reloadAssetsAndRedraw);
-
-    // Advanced Settings Functions
     
     function toggleAdvancedSettings() {
       const div = document.getElementById("advancedSettings");
@@ -1261,12 +1228,11 @@
       if (file) {
         const reader = new FileReader();
         reader.onload = function () {
-          const fontName = file.name.replace(/\.[^/.]+$/, ""); // strip extension
+          const fontName = file.name.replace(/\.[^/.]+$/, "");
           const customFont = new FontFace(fontName, `url(${reader.result})`);
           customFont.load().then((loadedFont) => {
             document.fonts.add(loadedFont);
     
-            // Update preview and label
             const preview = document.getElementById("fontPreview");
             const label = document.getElementById("fontLabel");
             const previewText = document.getElementById("fontPreviewText");

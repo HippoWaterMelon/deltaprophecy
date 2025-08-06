@@ -1141,12 +1141,13 @@
         
         // Use inline worker to avoid CORS issues
         const gif = new GIF({
-          workers: 1, // Reduce workers to avoid issues
+          workers: 2, // Reduce workers to avoid issues
           quality: 15, // Slightly lower quality for speed
           width: 512,
           height: 306,
           transparent: null, // Remove transparency to avoid issues
           dither: false // Disable dithering for speed
+          workerScript: './assets/scripts/gif.worker.js'
         });
         
         statusSpan.textContent = 'Capturing frames...';

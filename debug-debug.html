@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DeltaProphecy</title>
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  
+  <!-- External Libraries for WebP Export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js" integrity="sha512-nNOFtIS+H0lwgdUDaPn/g1ssw3uN9AkEM7zy2wLaTQeLQNeNiitUcLpEpDIh3Z4T22MdeTNru/SQbNM4ig2rng==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.min.js"></script>
+  
+  <style>
+    @font-face {
+      font-family: 'ProphecyType';
+      src: url('./assets/fonts/PROPHECYTYPE.ttf') format('truetype');
+      font-display: swap;
+    }
+    
+
+    @font-face {
+      font-family: 'DTMSans';
+      src: url('./assets/fonts/DTM-Sans.otf') format('opentype');
+      font-display: swap;
+    }
+
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'DTMSans', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: white;
+      background: black;
+    }
+
+    #textContainer {
+      width: 75vw;
+      max-width: 425px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      text-align: center;
+      font-family: 'ProphecyType', serif;
+      font-size: 32px;
+      line-height: 1;
+      color: transparent;
+      background-size: 256px 256px;
+      -webkit-background-clip: text;
+      background-clip: text;
+      mix-blend-mode: screen;
+      animation: scrollBg 30s linear infinite;
+      background-repeat: repeat;
+    }
+
+    #textContainerRed {
+      position: absolute;
+      top: 0;
+      left: 50;
+      width: 75vw;
+      max-width: 425px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      text-align: center;
+      font-family: 'ProphecyType', serif;
+      font-size: 32px;
+      line-height: 1;
+      color: transparent;
+      background-size: 256px 256px;
+      -webkit-background-clip: text;
+      background-clip: text;
+      mix-blend-mode: screen;
+      animation: scrollBg 30s linear infinite, pulseFinalRed 2s infinite;
+      background-repeat: repeat;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    @keyframes scrollBg {
+      0% { background-position: 0 0; }
+      100% { background-position: 512px 512px; }
+    }
+
+    @keyframes pulseFinalRed {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes pulseFinalGhost1 {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 0.4; }
+    }
+    
+    @keyframes pulseFinalGhost2 {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 0.2; }
+    }
+
+    @keyframes pulseFinalBG {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 0.5; }
+    }
+
+    #output {
+      position: relative;
+      width: 90vw;
+      max-width: 512px;
+      aspect-ratio: 2 / 1;
+      max-height: 256px;
+    }
+
+    canvas {
+      position: absolute;
+      width: 90vw;
+      max-width: 512px;
+      height: auto;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      background: transparent;
+    }
+
+    #ghostIcon {
+      z-index: 1;
+      opacity: 0.4;
+      pointer-events: none;
+      top: -50px;
+    }
+
+    #ghostIcon2 {
+      z-index: 1;
+      opacity: 0.2;
+      pointer-events: none;
+      top: -50px;
+    }
+
+    body.final-theme #ghostIcon {
+      animation: pulseFinalGhost1 2s infinite 1s;
+    }
+    
+    body.final-theme #ghostIcon2 {
+      animation: pulseFinalGhost2 2s infinite 1s;
+    }
+
+    body.final-theme #background {
+      animation: pulseFinalBG 2s infinite 1s;
+    }
+
+    #panel {
+      z-index: 2;
+      top: -50px;
+    }
+
+    #ghostIconRed {
+      z-index: 11;
+      pointer-events: none;
+      top: -50px;
+      opacity: 0;
+      animation: pulseFinalGhost1 2s infinite;
+    }
+    
+    #ghostIcon2Red {
+      z-index: 11;
+      pointer-events: none;
+      top: -50px;
+      opacity: 0;
+      animation: pulseFinalGhost2 2s infinite;
+    }
+
+    #panelRed {
+      z-index: 12;
+      top: -50px;
+      pointer-events: none;
+      opacity: 0;
+      animation: pulseFinalRed 2s infinite;
+    }
+
+    #backgroundRed {
+      position: absolute;
+      width: 90vw;
+      max-width: 512px;
+      height: auto;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5; 
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      opacity: 0;
+      pointer-events: none;
+      animation: pulseFinalBG 2s infinite;
+      filter: blur(1.5px);
+    }
+
+    #background {
+      position: absolute;
+      width: 90vw;
+      max-width: 512px;
+      height: auto;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 0; 
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      opacity: 0.5;
+      filter: blur(1.5px);
+    }
+
+    body.susie-theme #background {
+      opacity: 0.5;
+    }
+
+    input[type="file"], input[type="text"] {
+      margin-top: 10px;
+      padding: 5px;
+      width: 75vw;
+      max-width: 512px;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+      text-align: center;
+      width: 100%;
+    }
+
+    h1 {
+      margin-top: 15px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 20px;
+      padding: 10px;
+      color: #fff;
+      font-size: 14px;
+      text-align: center;
+      width: 100%;
+      max-width: 512px;
+    }
+
+    .alt-font {
+      font-family: 'ProphecyType', serif;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 125px;
+      max-width: 512px;
+      height: 10px;
+      background: transparent; 
+      margin-top: 10px;
+      padding: 0;
+      border-radius: 0px;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.2); 
+      border-radius: 0px;
+    }
+
+    input[type="range"]::-moz-range-track {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 0px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      background: white;
+      border: 0px;
+      margin-top: -4px; 
+      cursor: pointer;
+      box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      background: white;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    }
+
+    #directions {
+      max-width: 512px;
+      text-align: center;
+      color: #fff;
+      margin-top: 10px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    input[type="text"] {
+      font-family: 'DTMSans', sans-serif;
+      background-color: black;
+      color: white;
+      border: 2px solid white;
+      padding: 5px 10px;
+      outline: none;
+      border-radius: 0px; 
+      box-sizing: border-box;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #fff; 
+      box-shadow: 0 0 5px white; 
+    }
+
+    .custom-file-upload {
+      display: inline-block;
+      font-family: 'DTMSans', sans-serif;
+      background-color: black;
+      color: white;
+      border: 2px solid white;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 0px;
+      user-select: none;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .custom-file-upload:hover {
+      background-color: #222;
+      border-color: #fff;
+    }
+
+    .custom-file-upload:active {
+      background-color: #111;
+    }
+
+    .custom-file-upload:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #sineWrapper {
+      will-change: transform;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    select#styleSelect {
+      font-family: 'DTMSans', sans-serif;
+      background-color: black;
+      color: white;
+      border: 2px solid white;
+      padding: 5px 10px;
+      border-radius: 0;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      text-align: center;
+      margin-top: 10px;
+      width: 125px;
+      max-width: 512px;
+    }
+    
+    select#styleSelect:hover {
+      background-color: #222;
+      border-color: #fff;
+    }
+    
+    select#styleSelect:focus {
+      outline: none;
+      border-color: #fff;
+      box-shadow: 0 0 5px white;
+    }
+
+    #overlayWrapper {
+      position: relative;
+      width: 100%;
+      max-width: 512px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: black;
+    }
+    
+    #advancedSettings {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+    }
+    
+    #advancedGrid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 12px;
+      background: black;
+      border: 2px solid white;
+      text-align: center;
+      max-width: 400px;
+    }
+    
+    .advancedCell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .previewBox {
+      width: 96px;
+      height: 96px;
+      border: 2px solid white;
+      background-color: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 36px;
+      margin-bottom: 8px;
+      image-rendering: pixelated;
+      object-fit: contain;
+      overflow: hidden;
+    }
+    
+    .fileLabel {
+      font-family: 'DTMSans', sans-serif;
+      font-size: 12px;
+      margin-bottom: 4px;
+      color: white;
+    }
+
+    .custom-file-upload.small {
+      display: inline-block;
+      font-family: 'DTMSans', sans-serif;
+      background-color: black;
+      color: white;
+      border: 2px solid white;
+      padding: 3px 6px;
+      font-size: 12px;
+      cursor: pointer;
+      border-radius: 0px;
+      user-select: none;
+      text-align: center;
+      margin-top: 4px;
+    }
+    
+    .custom-file-upload.small:hover {
+      background-color: #222;
+      border-color: #fff;
+    }
+    
+    .custom-file-upload.small:active {
+      background-color: #111;
+    }
+
+    .sliderWrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 80px;
+      width: 125px;
+      margin-top: 2px;
+      gap: 4px;
+      user-select: none;
+      grid-column: span 2;
+      justify-self: center;
+    }
+    
+    #fontScale {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 125px;
+      height: 10px;
+      background: transparent;
+      cursor: pointer;
+      margin: 0;
+      align-self: center;
+    }
+    
+    #fontScale::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 0px;
+    }
+    
+    #fontScale::-moz-range-track {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 0px;
+    }
+    
+    #fontScale::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      background: white;
+      border: none;
+      margin-top: -2px;
+      box-shadow: 0 0 2px rgba(0,0,0,0.5);
+      cursor: pointer;
+    }
+    
+    #fontScale::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      background: white;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    }
+
+    .sliderWrapper > .fileLabel:first-child {
+      margin-bottom: auto;
+    }
+    
+    .sliderWrapper > #fontScaleValue {
+      margin-top: auto;
+    }
+
+    #fontPreviewText {
+      transition: font-size 0.1s ease;
+    }
+
+    /* Export Progress Styles */
+    #exportProgress {
+      
+      padding: 10px;
+      border-radius: 0px;
+      background-color: black;
+      color: white;
+      border: 2px solid white;
+      margin-top: 10px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    #exportProgress .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #333;
+      border-radius: 0px;
+      margin: 8px 0;
+      overflow: hidden;
+    }
+
+    #exportProgress .progress-fill {
+      height: 100%;
+      background: white;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .export-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Deltarune Prophecy Panel Generator</h1>
+  <input type="file" id="imgInput" accept="image/*" style="display:none;" />
+  <label for="imgInput" class="custom-file-upload">Upload Image</label>
+  <input type="text" id="textInput" placeholder="Enter prophecy text" />
+  <div style="margin-top: 10px;">
+    <label for="styleSelect">Style:</label>
+    <select id="styleSelect">
+      <option value="default">Default</option>
+      <option value="susie">Susie's Dark World</option>
+      <option value="final">The Final Prophecy</option>
+    </select>
+  </div>
+  <div style="display: flex; justify-content: center; width: 100%;">
+    <div class="checkbox-container">
+      <label for="imgScale">Image Scale:</label>
+      <input type="range" id="imgScale" min="0.1" max="3" value="1" step="0.01" />
+      <span id="imgScaleValue">1.00×</span>
+    </div>
+  </div>
+  <div style="display: flex; justify-content: center; width: 100%;">
+    <div class="checkbox-container">
+      <label for="imgYOffset">Image Y Offset:</label>
+      <input type="range" id="imgYOffset" min="-100" max="100" value="0" />
+      <span id="imgYOffsetValue">0px</span>
+    </div>
+  </div>
+
+  <div style="height: 10px;"></div>
+  <button onclick="toggleAdvancedSettings()" class="custom-file-upload">Advanced Settings</button>
+  
+  <!-- Export Section -->
+  <div class="export-section">
+    <button id="exportWebpBtn" class="custom-file-upload">Export Animated GIF</button>
+    <div id="exportProgress" style="display: none;">
+      <div>Capturing frames: <span id="frameCount">0</span>/<span id="totalFrames">60</span></div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div>Progress: <span id="progressPercent">0</span>%</div>
+      <div id="exportStatus">Preparing...</div>
+    </div>
+  </div>
+  
+  <div id="advancedSettings" style="display: none; margin-top: 10px;">
+    <div id="advancedGrid">
+
+      <div class="advancedCell">
+        <div id="fontPreview" class="previewBox" style="font-family: 'ProphecyType';">
+          <span id="fontPreviewText">Aa</span>
+        </div>
+        <div id="fontLabel" class="fileLabel" style="font-family: 'ProphecyType';">ProphecyType</div>
+        <label class="custom-file-upload small">
+          Upload Font
+          <input type="file" id="fontUpload" accept=".ttf,.otf" style="display: none;" />
+        </label>
+      </div>
+  
+      <div class="advancedCell">
+        <img id="textPreview" class="previewBox" />
+        <div class="fileLabel">Text Texture</div>
+        <label class="custom-file-upload small">
+          Upload Texture
+          <input type="file" id="textTextureUpload" accept="image/*" style="display: none;" />
+        </label>
+      </div>
+  
+      <div class="advancedCell">
+        <img id="panelPreview" class="previewBox" />
+        <div class="fileLabel">Panel Texture</div>
+        <label class="custom-file-upload small">
+          Upload Texture
+          <input type="file" id="panelImageUpload" accept="image/*" style="display: none;" />
+        </label>
+      </div>
+  
+      <div class="advancedCell">
+        <img id="bgPreview" class="previewBox" />
+        <div class="fileLabel">Background Texture</div>
+        <label class="custom-file-upload small">
+          Upload Texture
+          <input type="file" id="bgImageUpload" accept="image/*" style="display: none;" />
+        </label>
+      </div>
+
+      <div class="sliderWrapper">
+        <label for="fontScale" class="fileLabel">Font Scale</label>
+        <input type="range" id="fontScale" min="0.5" max="2" step="0.05" value="1">
+        <span id="fontScaleValue" class="fileLabel">1.00×</span>
+      </div>
+
+    </div>
+  </div>
+  
+  <div style="height: 30px;"></div>
+  <div id="sineWrapper">
+    <div id="overlayWrapper">
+      <div id="textContainer">Your prophecy here</div>
+      <div id="textContainerRed">Your prophecy here</div>
+      <div id="output">
+        <canvas id="background" width="512" height="256"></canvas>
+        <canvas id="backgroundRed" width="512" height="256"></canvas>
+        <canvas id="ghostIcon2" width="512" height="256"></canvas>
+        <canvas id="ghostIcon" width="512" height="256"></canvas>
+        <canvas id="panel" width="512" height="256"></canvas>
+        <canvas id="ghostIcon2Red" width="512" height="256"></canvas>
+        <canvas id="ghostIconRed" width="512" height="256"></canvas>
+        <canvas id="panelRed" width="512" height="256"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div id="directions">
+  <p>Upload a white-only or black-and-white image above to begin. Type your prophecy text in the box. You can use \n to move to a new line.<br><br>Click "Export Animated GIF" to capture a 2-second animation loop! For WebP conversion, use online tools like ezgif.com.<br><br>If your image isn't monochrome, you can make it so <a href="./monochrome.html" target="_blank" rel="noopener noreferrer">here</a>.
+</p>
+  </div>
+  <footer>
+    <p>© HippoWaterMelon 2025 - DELTARUNE © 2025 Toby Fox - <span class="alt-font">ProphecyType</span> by u/RelevantAd2788 - Determination Sans by Haley Wakamatsu</p>
+  </footer>
+
+  <script>
+    const imgInput = document.getElementById('imgInput');
+    const textInput = document.getElementById('textInput');
+    const panel = document.getElementById('panel');
+    const ghostIcon = document.getElementById('ghostIcon');
+    const panelRed = document.getElementById('panelRed');
+    const ghostIconRed = document.getElementById('ghostIconRed');
+    const ctx = panel.getContext('2d');
+    const gtx = ghostIcon.getContext('2d');
+    const ctxRed = panelRed.getContext('2d');
+    const gtxRed = ghostIconRed.getContext('2d');
+    const textContainer = document.getElementById('textContainer');
+    const textContainerRed = document.getElementById('textContainerRed');
+    const imgYOffset = document.getElementById('imgYOffset');
+    const imgScale = document.getElementById('imgScale');
+    const imgScaleValue = document.getElementById('imgScaleValue');
+    const backgroundCanvas = document.getElementById('background');
+    const backgroundRedCanvas = document.getElementById('backgroundRed');
+    const bgCtx = backgroundCanvas.getContext('2d');
+    const bgRedCtx = backgroundRedCanvas.getContext('2d');
+    const styleSelect = document.getElementById('styleSelect');
+
+    let maskImage = null;
+    let resultCanvas = null;
+    let resultCanvasRed = null;
+    let scrollOffset = 0;
+    let ghostStarted = false;
+    let placeholder = null;
+    let placeholderRed = null;
+    let backgroundTile = null;
+    let backgroundTileRed = null;
+    let backgroundScrollOffset = 0;
+
+    // WebP Export Variables
+    let isExporting = false;
+
+    const panelPresets = {
+      'roots': {
+        text: 'Roots',
+        style: 'default',
+        yOffset: 38
+      },
+      'gallery': {
+        text: 'Gallery',
+        style: 'default',
+        yOffset: 20
+      },
+      'initial-1': {
+        text: 'The prophecy, which whispers \\n among the shadows.',
+        style: 'default',
+        yOffset: 16
+      },
+      'initial-2': {
+        text: 'The legend of this world. \\n < Deltarune. >',
+        style: 'default',
+        yOffset: 52
+      },
+      'main-1': {
+        text: 'A world basked in purest light. \\n Beneath it grew eternal night.',
+        style: 'default'
+      },
+      'main-2': {
+        text: 'If fountains freed, the roaring cries. \\n And titans shape from darkened eyes.',
+        style: 'default',
+        yOffset: 20
+      },
+      'main-3': {
+        text: 'The light and dark, both burning dire. \\n A countdown to the earth\'s expire.',
+        style: 'default',
+        yOffset: 32
+      },
+      'heroes-1': {
+        text: 'But lo, on hopes and dreams they send. \\n Three heroes at the world\'s end.',
+        style: 'default'
+      },
+      'heroes-4': {
+        text: 'The first hero. \\n The cage, with human soul and parts.',
+        style: 'susie',
+        yOffset: 36
+      },
+      'heroes-2': {
+        text: 'The second hero. \\n The girl, with hope crossed on her heart.',
+        style: 'susie',
+        yOffset: 25
+      },
+      'heroes-3': {
+        text: 'The third hero. \\n The prince, alone in deepest dark.',
+        style: 'susie',
+        yOffset: 54
+      },
+      'rude-buster': {
+        text: 'And last, was the girl. \\n At last, was the girl.',
+        style: 'susie'
+      },
+      'joke-1': {
+        text: 'Jockington grows the beard.',
+        style: 'default'
+      },
+      'joke-2': {
+        text: 'The pointy-headed will say \\n "Toothpaste," and then "Boy."',
+        style: 'default',
+        yOffset: 45
+      },
+      'boss-1': {
+        text: 'The queen\'s chariot \\n cannot be stopped.',
+        style: 'default',
+        yOffset: 65
+      },
+      'boss-2': {
+        text: 'Cleaved red by blade.',
+        style: 'susie',
+        yOffset: 42
+      },
+      'boss-3': {
+        text: 'The flower man, \\n trapped in asylum.',
+        style: 'default',
+        yOffset: 22
+      },
+      'knight': {
+        text: 'The knight which makes \\n with blackened knife.',
+        style: 'default',
+        yOffset: 20
+      },
+      'heaven-hell-1': {
+        text: 'They\'ll hear the ring of heaven\'s call.',
+        style: 'default',
+        yOffset: 20
+      },
+      'heaven-hell-2': {
+        text: 'They\'ll see the tail of hell take crawl.',
+        style: 'default',
+        yOffset: 32
+      },
+      'end': {
+        text: 'The final tragedy unveils.',
+        style: 'final',
+        yOffset: 55
+      },
+      'hammer': {
+        text: 'Axe carved by the \\n tortoise\'s grand hammer.',
+        style: 'default',
+      }
+    };
+
+    function getRandomPanel() {
+      const panelNames = Object.keys(panelPresets);
+      const randomIndex = Math.floor(Math.random() * panelNames.length);
+      return panelNames[randomIndex];
+    }
+
+    function loadImageFromFile(imagePath) {
+      return new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => {
+          const tileSize = 256;
+          const canvas = document.createElement('canvas');
+          canvas.width = canvas.height = tileSize;
+          const ctx = canvas.getContext('2d');
+          ctx.imageSmoothingEnabled = false;
+
+          ctx.drawImage(img, 0, 0, tileSize, tileSize);
+          resolve(canvas);
+        };
+        img.onerror = (e) => {
+          console.error('Failed to load image from ./assets/depth.png:', e);
+
+          const canvas = document.createElement('canvas');
+          canvas.width = canvas.height = 256;
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#ff0000';
+          ctx.fillRect(0, 0, 128, 128);
+          ctx.fillStyle = '#00ff00';
+          ctx.fillRect(128, 0, 128, 128);
+          ctx.fillStyle = '#0000ff';
+          ctx.fillRect(0, 128, 128, 128);
+          ctx.fillStyle = '#ffff00';
+          ctx.fillRect(128, 128, 128, 128);
+          resolve(canvas);
+        };
+        img.src = imagePath;
+      });
+    }
+
+    function createResultCanvas(placeholderTexture, canvasSize) {
+      if (!maskImage || !placeholderTexture) return null;
+
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = tempCanvas.height = canvasSize;
+      const tempCtx = tempCanvas.getContext('2d');
+      tempCtx.imageSmoothingEnabled = false;
+
+      const offset = scrollOffset % placeholderTexture.width;
+
+      for (let y = -offset; y < canvasSize + placeholderTexture.height; y += placeholderTexture.height) {
+        for (let x = -offset; x < canvasSize + placeholderTexture.width; x += placeholderTexture.width) {
+          tempCtx.drawImage(placeholderTexture, x, y);
+        }
+      }
+
+      const maskCanvas = document.createElement('canvas');
+      maskCanvas.width = maskCanvas.height = canvasSize;
+      const maskCtx = maskCanvas.getContext('2d');
+      maskCtx.clearRect(0, 0, canvasSize, canvasSize);
+      maskCtx.imageSmoothingEnabled = false;
+
+      let dx, dy, dw, dh;
+      const useOriginalRes = false;
+
+      if (useOriginalRes) {
+        dw = maskImage.width;
+        dh = maskImage.height;
+        dx = (canvasSize - dw) / 2;
+        dy = (canvasSize - dh) / 2;
+      } else {
+        const scale = Math.min(canvasSize / maskImage.width, canvasSize / maskImage.height);
+        dw = maskImage.width * scale;
+        dh = maskImage.height * scale;
+        dx = (canvasSize - dw) / 2;
+        dy = (canvasSize - dh) / 2;
+      }
+
+      maskCtx.drawImage(maskImage, dx, dy, dw, dh);
+
+      const maskData = maskCtx.getImageData(0, 0, canvasSize, canvasSize);
+      const texData = tempCtx.getImageData(0, 0, canvasSize, canvasSize);
+      const result = tempCtx.createImageData(canvasSize, canvasSize);
+
+      for (let i = 0; i < maskData.data.length; i += 4) {
+        const r = maskData.data[i];
+        const g = maskData.data[i + 1];
+        const b = maskData.data[i + 2];
+        const a = maskData.data[i + 3];
+        const brightness = (r + g + b) / 3;
+
+        if (brightness > 200 && a > 0) {
+          result.data[i] = texData.data[i];
+          result.data[i + 1] = texData.data[i + 1];
+          result.data[i + 2] = texData.data[i + 2];
+          result.data[i + 3] = 255;
+        } else {
+          result.data[i + 3] = 0;
+        }
+      }
+
+      const resultCanvas = document.createElement('canvas');
+      resultCanvas.width = resultCanvas.height = canvasSize;
+      resultCanvas.getContext('2d').putImageData(result, 0, 0);
+      return resultCanvas;
+    }
+
+    function drawPanel() {
+      if (!maskImage || !placeholder) return;
+
+      scrollOffset = (scrollOffset + 1) % placeholder.width;
+      
+      const canvasSize = 256;
+
+      ctx.clearRect(0, 0, 512, 512);
+      ctx.imageSmoothingEnabled = false;
+      resultCanvas = createResultCanvas(placeholder, canvasSize);
+      
+      if (resultCanvas) {
+        let scale = parseFloat(imgScale.value);
+        const scaledW = resultCanvas.width * scale;
+        const scaledH = resultCanvas.height * scale;
+        const scaledX = (512 - scaledW) / 2;
+        const scaledY = (256 - scaledH) / 2 - parseInt(imgYOffset.value, 10);
+        ctx.drawImage(resultCanvas, 0, 0, resultCanvas.width, resultCanvas.height, scaledX, scaledY, scaledW, scaledH);
+      }
+
+      if (placeholderRed) {
+        ctxRed.clearRect(0, 0, 512, 512);
+        ctxRed.imageSmoothingEnabled = false;
+        resultCanvasRed = createResultCanvas(placeholderRed, canvasSize);
+        
+        if (resultCanvasRed) {
+          let scale = parseFloat(imgScale.value);
+          const scaledW = resultCanvasRed.width * scale;
+          const scaledH = resultCanvasRed.height * scale;
+          const scaledX = (512 - scaledW) / 2;
+          const scaledY = (256 - scaledH) / 2 - parseInt(imgYOffset.value, 10);
+          ctxRed.drawImage(resultCanvasRed, 0, 0, resultCanvasRed.width, resultCanvasRed.height, scaledX, scaledY, scaledW, scaledH);
+        }
+      }
+    }
+
+    function drawGhostIcon() {
+      if (!resultCanvas) return;
+
+      const t = performance.now() / 1000;
+      const offset1 = Math.sin(t * 2) * 6;
+      const offset2 = offset1 * 2;
+
+      let scale = parseFloat(imgScale.value);
+      const scaledW = resultCanvas.width * scale;
+      const scaledH = resultCanvas.height * scale;
+      const scaledX = (512 - scaledW) / 2;
+      const scaledY = (256 - scaledH) / 2 - parseInt(imgYOffset.value, 10);
+
+      gtx.clearRect(0, 0, 512, 512);
+      gtx.imageSmoothingEnabled = false;
+      gtx.setTransform(1, 0, 0, 1, offset1, offset1);
+      gtx.drawImage(resultCanvas, 0, 0, resultCanvas.width, resultCanvas.height, scaledX, scaledY, scaledW, scaledH);
+      gtx.setTransform(1, 0, 0, 1, 0, 0);
+
+      const gtx2 = document.getElementById('ghostIcon2').getContext('2d');
+      gtx2.clearRect(0, 0, 512, 512);
+      gtx2.imageSmoothingEnabled = false;
+      gtx2.setTransform(1, 0, 0, 1, offset2, offset2);
+      gtx2.drawImage(resultCanvas, 0, 0, resultCanvas.width, resultCanvas.height, scaledX, scaledY, scaledW, scaledH);
+      gtx2.setTransform(1, 0, 0, 1, 0, 0);
+
+      if (resultCanvasRed) {
+        gtxRed.clearRect(0, 0, 512, 512);
+        gtxRed.imageSmoothingEnabled = false;
+        gtxRed.setTransform(1, 0, 0, 1, offset1, offset1);
+        gtxRed.drawImage(resultCanvasRed, 0, 0, resultCanvasRed.width, resultCanvasRed.height, scaledX, scaledY, scaledW, scaledH);
+        gtxRed.setTransform(1, 0, 0, 1, 0, 0);
+
+        const gtx2Red = document.getElementById('ghostIcon2Red').getContext('2d');
+        gtx2Red.clearRect(0, 0, 512, 512);
+        gtx2Red.imageSmoothingEnabled = false;
+        gtx2Red.setTransform(1, 0, 0, 1, offset2, offset2);
+        gtx2Red.drawImage(resultCanvasRed, 0, 0, resultCanvasRed.width, resultCanvasRed.height, scaledX, scaledY, scaledW, scaledH);
+        gtx2Red.setTransform(1, 0, 0, 1, 0, 0);
+      }
+
+      requestAnimationFrame(drawGhostIcon);
+    }
+
+    function drawBackground() {
+      if (!backgroundTile) return;
+
+      backgroundScrollOffset = (backgroundScrollOffset + 0.5) % backgroundTile.width;
+      bgCtx.clearRect(0, 0, 512, 256);
+      bgCtx.imageSmoothingEnabled = false;
+
+      const scale = parseFloat(imgScale.value);
+      const yOffset = -parseInt(imgYOffset.value, 10);
+      
+      const scaledTileWidth = backgroundTile.width * scale;
+      const scaledTileHeight = backgroundTile.height * scale;
+      
+      const offset = (backgroundScrollOffset * scale) % scaledTileWidth;
+
+      for (let y = -offset + yOffset; y < 256 + scaledTileHeight + yOffset; y += scaledTileHeight) {
+        for (let x = -offset; x < 512 + scaledTileWidth; x += scaledTileWidth) {
+          bgCtx.drawImage(backgroundTile, x, y, scaledTileWidth, scaledTileHeight);
+        }
+      }
+
+      if (backgroundTileRed) {
+        bgRedCtx.clearRect(0, 0, 512, 256);
+        bgRedCtx.imageSmoothingEnabled = false;
+
+        for (let y = -offset + yOffset; y < 256 + scaledTileHeight + yOffset; y += scaledTileHeight) {
+          for (let x = -offset; x < 512 + scaledTileWidth; x += scaledTileWidth) {
+            bgRedCtx.drawImage(backgroundTileRed, x, y, scaledTileWidth, scaledTileHeight);
+          }
+        }
+      }
+
+      const canvasSize = 256; 
+      const scaledW = canvasSize * scale;
+      const scaledH = canvasSize * scale;
+      const imageX = (512 - scaledW) / 2; 
+      const imageY = 64 + yOffset; 
+
+      const radiusX = 160 * scale; 
+      const radiusY = 100 * scale;  
+
+      bgCtx.save();
+      bgCtx.translate(imageX + scaledW/2, imageY);
+      bgCtx.scale(radiusX / radiusY, 1); 
+      bgCtx.translate(-(imageX + scaledW/2), -imageY);
+
+      const gradient = bgCtx.createRadialGradient(imageX + scaledW/2, imageY, 0, imageX + scaledW/2, imageY, radiusY);
+      gradient.addColorStop(0, 'rgba(0,0,0,0)'); 
+      gradient.addColorStop(0.6, 'rgba(0,0,0,0)'); 
+      gradient.addColorStop(1, 'rgba(0,0,0,1)');   
+
+      bgCtx.fillStyle = gradient;
+      bgCtx.fillRect(0, 0, 512, 256); 
+      bgCtx.restore();
+
+      if (backgroundTileRed) {
+        bgRedCtx.save();
+        bgRedCtx.translate(imageX + scaledW/2, imageY);
+        bgRedCtx.scale(radiusX / radiusY, 1); 
+        bgRedCtx.translate(-(imageX + scaledW/2), -imageY);
+
+        const redGradient = bgRedCtx.createRadialGradient(imageX + scaledW/2, imageY, 0, imageX + scaledW/2, imageY, radiusY);
+        redGradient.addColorStop(0, 'rgba(0,0,0,0)'); 
+        redGradient.addColorStop(0.6, 'rgba(0,0,0,0)'); 
+        redGradient.addColorStop(1, 'rgba(0,0,0,1)');   
+
+        bgRedCtx.fillStyle = redGradient;
+        bgRedCtx.fillRect(0, 0, 512, 256); 
+        bgRedCtx.restore();
+      }
+    }
+
+    function tryStartGhost() {
+      if (!ghostStarted && resultCanvas) {
+        ghostStarted = true;
+        requestAnimationFrame(drawGhostIcon);
+      }
+    }
+
+    // WebP Export Functions - Optimized Version
+    async function exportAnimatedWebP() {
+      if (isExporting) return;
+      
+      isExporting = true;
+      const btn = document.getElementById('exportWebpBtn');
+      const progressDiv = document.getElementById('exportProgress');
+      const frameCountSpan = document.getElementById('frameCount');
+      const totalFramesSpan = document.getElementById('totalFrames');
+      const progressSpan = document.getElementById('progressPercent');
+      const progressFill = document.getElementById('progressFill');
+      const statusSpan = document.getElementById('exportStatus');
+      
+      btn.textContent = 'Exporting...';
+      btn.disabled = true;
+      progressDiv.style.display = 'block';
+      
+      try {
+        // Configuration - Reduced frames for speed
+        const frameCount = 30; // 1 second at 30fps for faster capture
+        const frameDelay = 67; // ~15fps output
+        
+        totalFramesSpan.textContent = frameCount;
+        statusSpan.textContent = 'Initializing...';
+        
+        // Use inline worker to avoid CORS issues
+        const gif = new GIF({
+          workers: 1, // Reduce workers to avoid issues
+          quality: 15, // Slightly lower quality for speed
+          width: 512,
+          height: 306,
+          transparent: null, // Remove transparency to avoid issues
+          dither: false // Disable dithering for speed
+        });
+        
+        statusSpan.textContent = 'Capturing frames...';
+        
+        // Capture frames with faster method
+        const frames = [];
+        for (let i = 0; i < frameCount; i++) {
+          frameCountSpan.textContent = i + 1;
+          const progress = Math.round((i / frameCount) * 70);
+          progressSpan.textContent = progress;
+          progressFill.style.width = progress + '%';
+          
+          // Fast capture method
+          const canvas = await captureFrameFast();
+          if (canvas) {
+            frames.push(canvas);
+          }
+          
+          // Shorter delay between captures
+          await new Promise(resolve => setTimeout(resolve, 16)); // ~60fps capture
+        }
+        
+        // Add frames to GIF
+        statusSpan.textContent = 'Processing frames...';
+        for (let i = 0; i < frames.length; i++) {
+          gif.addFrame(frames[i], { delay: frameDelay });
+          const progress = Math.round(70 + (i / frames.length) * 15);
+          progressSpan.textContent = progress;
+          progressFill.style.width = progress + '%';
+        }
+        
+        // Render GIF
+        statusSpan.textContent = 'Rendering GIF...';
+        progressSpan.textContent = '85';
+        progressFill.style.width = '85%';
+        
+        gif.on('progress', function(p) {
+          const progress = Math.round(85 + p * 15);
+          progressSpan.textContent = progress;
+          progressFill.style.width = progress + '%';
+        });
+        
+        gif.on('finished', function(blob) {
+          statusSpan.textContent = 'Download ready!';
+          progressSpan.textContent = '100';
+          progressFill.style.width = '100%';
+          
+          // Download the GIF
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'deltaprophecy-animation.gif';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          
+          // Show success message
+          setTimeout(() => {
+            alert('GIF exported successfully! 🎉\n\nFor WebP conversion, try:\n• ezgif.com (GIF to WebP)\n• cloudconvert.com\n• convertio.co');
+          }, 100);
+          
+          // Reset UI
+          resetExportUI();
+        });
+        
+        gif.on('abort', function() {
+          statusSpan.textContent = 'Export cancelled';
+          resetExportUI();
+        });
+        
+        gif.render();
+        
+      } catch (error) {
+        console.error('Export failed:', error);
+        statusSpan.textContent = 'Export failed: ' + error.message;
+        alert('Export failed: ' + error.message + '\n\nTry refreshing the page and trying again.');
+        resetExportUI();
+      }
+    }
+
+    function resetExportUI() {
+      const btn = document.getElementById('exportWebpBtn');
+      const progressDiv = document.getElementById('exportProgress');
+      
+      btn.textContent = 'Export Animated GIF';
+      btn.disabled = false;
+      
+      setTimeout(() => {
+        progressDiv.style.display = 'none';
+      }, 3000);
+      
+      isExporting = false;
+    }
+
+    // Fast canvas-based capture instead of DOM-to-image
+    async function captureFrameFast() {
+      try {
+        // Create a composite canvas directly from existing canvases
+        const canvas = document.createElement('canvas');
+        canvas.width = 512;
+        canvas.height = 306;
+        const ctx = canvas.getContext('2d');
+        
+        // Fill with black background
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, 512, 306);
+        
+        // Draw background layers
+        const bgCanvas = document.getElementById('background');
+        const bgRedCanvas = document.getElementById('backgroundRed');
+        
+        if (bgCanvas) {
+          ctx.drawImage(bgCanvas, 0, 50); // Offset for text space
+        }
+        
+        if (bgRedCanvas && bgRedCanvas.style.opacity !== '0') {
+          ctx.globalAlpha = parseFloat(bgRedCanvas.style.opacity) || 1;
+          ctx.drawImage(bgRedCanvas, 0, 50);
+          ctx.globalAlpha = 1;
+        }
+        
+        // Draw main panel layers
+        const panels = ['ghostIcon2', 'ghostIcon', 'panel'];
+        const redPanels = ['ghostIcon2Red', 'ghostIconRed', 'panelRed'];
+        
+        for (const panelId of panels) {
+          const panelCanvas = document.getElementById(panelId);
+          if (panelCanvas) {
+            const opacity = parseFloat(window.getComputedStyle(panelCanvas).opacity) || 1;
+            if (opacity > 0) {
+              ctx.globalAlpha = opacity;
+              ctx.drawImage(panelCanvas, 0, 50);
+              ctx.globalAlpha = 1;
+            }
+          }
+        }
+        
+        // Draw red panels if visible
+        for (const panelId of redPanels) {
+          const panelCanvas = document.getElementById(panelId);
+          if (panelCanvas) {
+            const opacity = parseFloat(window.getComputedStyle(panelCanvas).opacity) || 1;
+            if (opacity > 0) {
+              ctx.globalAlpha = opacity;
+              ctx.drawImage(panelCanvas, 0, 50);
+              ctx.globalAlpha = 1;
+            }
+          }
+        }
+        
+        // Draw text using canvas text instead of DOM capture
+        const textContainer = document.getElementById('textContainer');
+        const textContainerRed = document.getElementById('textContainerRed');
+        
+        if (textContainer) {
+          drawTextToCanvas(ctx, textContainer, false);
+        }
+        
+        if (textContainerRed && parseFloat(window.getComputedStyle(textContainerRed).opacity) > 0) {
+          ctx.globalAlpha = parseFloat(window.getComputedStyle(textContainerRed).opacity) || 1;
+          drawTextToCanvas(ctx, textContainerRed, true);
+          ctx.globalAlpha = 1;
+        }
+        
+        return canvas;
+      } catch (error) {
+        console.error('Fast capture failed:', error);
+        return createErrorCanvas();
+      }
+    }
+
+    function drawTextToCanvas(ctx, textElement, isRed) {
+      try {
+        // Get text content and styling
+        const text = textElement.textContent || 'Your prophecy here';
+        const style = window.getComputedStyle(textElement);
+        const fontSize = parseInt(style.fontSize) || 32;
+        const fontFamily = style.fontFamily || 'ProphecyType, serif';
+        
+        // Set up text rendering
+        ctx.font = `${fontSize}px ${fontFamily}`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        // Create gradient for text (simplified)
+        const gradient = ctx.createLinearGradient(0, 0, 512, 50);
+        if (isRed) {
+          gradient.addColorStop(0, '#ff0000');
+          gradient.addColorStop(0.5, '#ff4444');
+          gradient.addColorStop(1, '#cc0000');
+        } else {
+          gradient.addColorStop(0, '#4488ff');
+          gradient.addColorStop(0.5, '#66aaff');
+          gradient.addColorStop(1, '#2266cc');
+        }
+        
+        ctx.fillStyle = gradient;
+        
+        // Draw text lines
+        const lines = text.split('\n');
+        const lineHeight = fontSize * 1.2;
+        const startY = 25 - ((lines.length - 1) * lineHeight / 2);
+        
+        lines.forEach((line, index) => {
+          ctx.fillText(line.trim(), 256, startY + (index * lineHeight));
+        });
+      } catch (error) {
+        console.error('Text drawing failed:', error);
+      }
+    }
+
+    function createErrorCanvas() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 306;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, 512, 306);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '16px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('Capture Error', 256, 153);
+      return canvas;
+    }
+
+    // Event Listeners
+    document.getElementById('exportWebpBtn').addEventListener('click', exportAnimatedWebP);
+
+    imgInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const img = new Image();
+      img.onload = () => {
+        maskImage = img;
+        drawPanel();
+        tryStartGhost();
+      };
+      img.src = URL.createObjectURL(file);
+    });
+
+    textInput.addEventListener('input', () => {
+      const formattedText = (textInput.value || 'Your prophecy here').replace(/\\n/g, '<br>');
+      textContainer.innerHTML = formattedText;
+      textContainerRed.innerHTML = formattedText;
+    });
+
+    function getAssetPath(name) {
+      const style = styleSelect.value;
+      let suffix = '';
+      if (style === 'susie') suffix = '-susie';
+      else if (style === 'final') suffix = '-final';
+      return `./assets/depth/${name}${suffix}.png`;
+    }
+
+    function getRedAssetPath(name) {
+      return `./assets/depth/${name}-final-red.png`;
+    }
+
+    let customTextTexture = null;
+    let customBackgroundTile = null;
+    let customPanelTexture = null;
+    
+    function reloadAssetsAndRedraw() {
+      const isFinalStyle = styleSelect.value === 'final';
+      const isCustom = customTextTexture || customBackgroundTile || customPanelTexture;
+    
+      const promises = [
+        customPanelTexture ? Promise.resolve(customPanelTexture) : loadImageFromFile(getAssetPath('depth-blue')),
+        customTextTexture ? Promise.resolve(customTextTexture) : loadImageFromFile(getAssetPath('depth-text')),
+        customBackgroundTile ? Promise.resolve(customBackgroundTile) : loadImageFromFile(getAssetPath('depth-darker-new'))
+      ];
+
+      if (isFinalStyle && !isCustom) {
+        promises.push(
+          loadImageFromFile(getRedAssetPath('depth-blue')),
+          loadImageFromFile(getRedAssetPath('depth-text')),
+          loadImageFromFile(getRedAssetPath('depth-darker-new'))
+        );
+      }
+    
+      Promise.all(promises)
+      .then((results) => {
+        const [tile, textBG, bgTile, redTile, redTextBG, redBgTile] = results;
+        
+        placeholder = tile;
+        backgroundTile = bgTile;
+        textContainer.style.backgroundImage = `url(${textBG.toDataURL()})`;
+
+        if (isFinalStyle && !isCustom && redTile && redTextBG && redBgTile) {
+          placeholderRed = redTile;
+          backgroundTileRed = redBgTile;
+          textContainerRed.style.backgroundImage = `url(${redTextBG.toDataURL()})`;
+        } else {
+          placeholderRed = null;
+          backgroundTileRed = null;
+        }
+
+        const redElements = ['#textContainerRed', '#ghostIconRed', '#ghostIcon2Red', '#panelRed', '#backgroundRed'];
+        redElements.forEach(selector => {
+          const element = document.querySelector(selector);
+          if (element) {
+            element.style.display = (isFinalStyle && !isCustom) ? 'block' : 'none';
+          }
+        });
+    
+        if (maskImage) drawPanel();
+        drawBackground();
+    
+        if (!isCustom) {
+          document.body.classList.toggle('susie-theme', styleSelect.value === 'susie');
+          document.body.classList.toggle('final-theme', styleSelect.value === 'final');
+        } else {
+          document.body.classList.remove('susie-theme');
+          document.body.classList.remove('final-theme');
+        }
+      });
+    }
+
+    reloadAssetsAndRedraw();
+    setInterval(() => {
+      drawPanel();
+      drawBackground();
+    }, 1000 / 30);
+
+    imgYOffset.addEventListener('input', () => {
+      imgYOffsetValue.textContent = imgYOffset.value + 'px';
+      if (maskImage) {
+        drawPanel();
+        drawBackground();
+      }
+    });
+
+    imgScale.addEventListener('input', () => {
+      imgScaleValue.textContent = parseFloat(imgScale.value).toFixed(2) + '×';
+      if (maskImage) {
+        drawPanel();
+        drawBackground();
+      }
+    });
+
+    window.addEventListener('load', () => {
+      const randomPanelName = getRandomPanel();
+      const randomPanel = panelPresets[randomPanelName];
+      
+      console.log(`Loading random panel: ${randomPanelName}`);
+      
+      styleSelect.value = randomPanel.style;
+      document.body.classList.toggle('susie-theme', randomPanel.style === 'susie');
+      document.body.classList.toggle('final-theme', randomPanel.style === 'final');
+      
+      textInput.value = randomPanel.text;
+      const formattedText = randomPanel.text.replace(/\\n/g, '<br>');
+      textContainer.innerHTML = formattedText;
+      textContainerRed.innerHTML = formattedText;
+      
+      const defaultImg = new Image();
+      defaultImg.onload = () => {
+        maskImage = defaultImg;
+        reloadAssetsAndRedraw();
+        drawPanel();
+        tryStartGhost();
+      };
+      defaultImg.onerror = () => {
+        console.error(`Failed to load image: ./assets/base-panels/${randomPanelName}.png`);
+        defaultImg.src = './assets/base-panels/heroes-1.png';
+      };
+      defaultImg.src = `./assets/base-panels/${randomPanelName}.png`;
+
+      if (randomPanel.yOffset !== undefined) {
+        imgYOffset.value = randomPanel.yOffset;
+        document.getElementById('imgYOffsetValue').textContent = randomPanel.yOffset + 'px';
+      } else {
+        imgYOffset.value = 0;
+        document.getElementById('imgYOffsetValue').textContent = '0px';
+      }
+
+      document.getElementById("textPreview").src = getAssetPath("depth-text");
+      document.getElementById("panelPreview").src = getAssetPath("depth-blue");
+      document.getElementById("bgPreview").src = getAssetPath("depth-darker-new");
+    });    
+
+    function animateSineWrapper() {
+      const t = performance.now() / 1000;
+      const offset = Math.sin(t * 1.5) * 10;
+      const sineWrapper = document.getElementById('sineWrapper');
+      if (sineWrapper) {
+        sineWrapper.style.transform = `translateY(${offset}px)`;
+      }
+      requestAnimationFrame(animateSineWrapper);
+    }
+    
+    requestAnimationFrame(animateSineWrapper);
+    
+    styleSelect.addEventListener('change', reloadAssetsAndRedraw);
+    
+    function toggleAdvancedSettings() {
+      const div = document.getElementById("advancedSettings");
+      div.style.display = div.style.display === "none" ? "block" : "none";
+    }
+    
+    document.getElementById("fontUpload").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          const fontName = file.name.replace(/\.[^/.]+$/, "");
+          const customFont = new FontFace(fontName, `url(${reader.result})`);
+          customFont.load().then((loadedFont) => {
+            document.fonts.add(loadedFont);
+    
+            const preview = document.getElementById("fontPreview");
+            const label = document.getElementById("fontLabel");
+            const previewText = document.getElementById("fontPreviewText");
+            const textContainer = document.getElementById("textContainer");
+            const textContainerRed = document.getElementById("textContainerRed");
+            
+            previewText.style.fontFamily = `"${fontName}", serif`;
+            label.textContent = fontName;
+            label.style.fontFamily = `"${fontName}", serif`;
+            textContainer.style.fontFamily = `"${fontName}", serif`;
+            textContainerRed.style.fontFamily = `"${fontName}", serif`;
+          });
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    document.getElementById("textTextureUpload").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = canvas.height = 256;
+          const ctx = canvas.getContext("2d");
+          ctx.imageSmoothingEnabled = false;
+          ctx.drawImage(img, 0, 0, 256, 256);
+          customTextTexture = canvas;
+          document.getElementById("textPreview").src = img.src;
+          reloadAssetsAndRedraw();
+        };
+        img.src = URL.createObjectURL(file);
+      }
+    });
+    
+    document.getElementById("panelImageUpload").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const img = new Image();
+        img.onload = () => {
+          placeholder = img;
+          customPanelTexture = img;
+          document.getElementById("panelPreview").src = img.src;
+          drawPanel();
+          drawBackground();
+          tryStartGhost();
+        };
+        img.src = URL.createObjectURL(file);
+      }
+    });
+    
+    document.getElementById("bgImageUpload").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = canvas.height = 256;
+          const ctx = canvas.getContext("2d");
+          ctx.imageSmoothingEnabled = false;
+          ctx.drawImage(img, 0, 0, 256, 256);
+          customBackgroundTile = canvas;
+          document.getElementById("bgPreview").src = img.src;
+          reloadAssetsAndRedraw();
+        };
+        img.src = URL.createObjectURL(file);
+      }
+    });
+
+    const fontScale = document.getElementById("fontScale");
+    const fontScaleValue = document.getElementById("fontScaleValue");
+    
+    fontScale.addEventListener("input", () => {
+      const scale = parseFloat(fontScale.value).toFixed(2);
+      fontScaleValue.textContent = `${scale}×`;
+      const fontPreviewText = document.getElementById("fontPreviewText");
+      fontPreviewText.style.fontSize = `${36 * scale}px`;
+      document.getElementById("textContainer").style.transform = `scale(${scale})`;
+      document.getElementById("textContainerRed").style.transform = `scale(${scale})`;
+    });
+
+  </script>
+
+  <script>
+    fetch('./assets/scripts/license.key')
+      .then(res => {
+        if (!res.ok) throw new Error('File not found');
+        return res.text();
+      })
+      .then(base64 => {
+        const decoded = atob(base64.trim());
+        const expected = 'hey there, shitlips! dont you dare even think to try and steal my fucking code!';
+  
+        if (decoded !== expected) {
+          console.warn('File contents do not match. Redirecting...');
+          window.location.href = 'https://hippowatermelon.github.io/deltaprophecy/404.html';
+        }
+      })
+      .catch(err => {
+        console.error('Failed to fetch or decode file:', err);
+        window.location.href = 'https://hippowatermelon.github.io/deltaprophecy/404.html';
+      });
+</script>
+</body>
+</html>

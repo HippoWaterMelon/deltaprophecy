@@ -643,7 +643,7 @@
   </div>
 
   <div id="directions">
-  <p>Upload a white-only or black-and-white image above to begin. Type your prophecy text in the box. You can use \n to move to a new line.<br><br>I couldn't find a way to get GIF exports to work, so you kinda just have to take a screenshot.<br><br>If your image isn't monochrome, you can make it so <a href="./monochrome.html" target="_blank" rel="noopener noreferrer">here</a>.
+  <p>Upload a white-only or black-and-white image above to begin. Type your prophecy text in the box. You can use \n to move to a new line.<br><br>I couldn't find a way to get GIF exports to work, so you kinda just have to take a screenshot.<br><br>If your image isn't monochrome, you can make it so <a href="./monochrome.html" target="_blank" rel="noopener noreferrer">here</a>
 </p>
   </div>
   <footer>
@@ -1349,7 +1349,251 @@
 
   </script>
 
+  <script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.min.js"></script>
   <script>
+    // GIF Export Functionality
+    let gif = null;
+    let isExporting = false;
+    
+    // Store original animation functions
+    const originalAnimateSineWrapper = window.animateSineWrapper;
+    const originalDrawGhostIcon = window.drawGhostIcon;
+    const originalDrawPanel = window.drawPanel;
+    const originalDrawBackground = window.drawBackground;
+
+    async function exportAsGif() {
+      if (isExporting) return;
+      isExporting = true;
+      
+      const btn = document.createElement('button');
+      btn.className = 'custom-file-upload';
+      btn.textContent = 'Exporting GIF...';
+      document.body.appendChild(btn);
+
+      // Create offscreen canvas for composition
+      const offscreenCanvas = document.createElement('canvas');
+      offscreenCanvas.width = 512;
+      offscreenCanvas.height = 256;
+      const offCtx = offscreenCanvas.getContext('2d');
+      
+      // Store original scroll offset
+      const originalScrollOffset = scrollOffset;
+      
+      try {
+        gif = new GIF({
+          workers: 2,
+          quality: 10,
+          width: 512,
+          height: 256,
+          workerScript: './gif.worker.js',
+          worker: true,
+          background: '#00000000',
+          transparent: null,
+          dither: false
+        });
+
+        const frameCount = 30; // 1 second at 30fps
+        const delay = 33; // ~30fps
+
+        for (let i = 0; i < frameCount; i++) {
+          if (!isExporting) break;
+          
+          btn.textContent = `Exporting... ${Math.round((i/frameCount)*100)}%`;
+          await new Promise(resolve => setTimeout(resolve, 50));
+
+          // Update animation state
+          const t = i / 30; // 30fps
+          const offset = Math.sin(t * 1.5) * 10;
+          document.getElementById('sineWrapper').style.transform = `translateY(${offset}px)`;
+          
+          // Update scroll offset for texture scrolling
+          scrollOffset = (originalScrollOffset + i) % 256;
+          
+          // Update ghost icon positions
+          const ghostOffset1 = Math.sin(t * 2) * 6;
+          const ghostOffset2 = ghostOffset1 * 2;
+          
+          // Clear the offscreen canvas
+          offCtx.clearRect(0, 0, 512, 256);
+          
+          // Draw background first
+          if (backgroundTile) {
+            drawBackground();
+            offCtx.drawImage(backgroundCanvas, 0, 0);
+          }
+          
+          // Draw ghost effects
+          if (ghostIcon2) {
+            const gtx2 = ghostIcon2.getContext('2d');
+            gtx2.clearRect(0, 0, 512, 512);
+            gtx2.save();
+            gtx2.translate(ghostOffset2, ghostOffset2);
+            gtx2.drawImage(panel, 0, 0);
+            gtx2.restore();
+            offCtx.drawImage(ghostIcon2, 0, 0);
+          }
+          
+          if (ghostIcon) {
+            const gtx1 = ghostIcon.getContext('2d');
+            gtx1.clearRect(0, 0, 512, 512);
+            gtx1.save();
+            gtx1.translate(ghostOffset1, ghostOffset1);
+            gtx1.drawImage(panel, 0, 0);
+            gtx1.restore();
+            offCtx.drawImage(ghostIcon, 0, 0);
+          }
+          
+          // Draw main panel
+          drawPanel();
+          offCtx.drawImage(panel, 0, 0);
+          
+          // Draw red elements if in final theme
+          if (document.body.classList.contains('final-theme')) {
+            if (backgroundRedCanvas) offCtx.drawImage(backgroundRedCanvas, 0, 0);
+            
+            if (ghostIcon2Red) {
+              const gtx2r = ghostIcon2Red.getContext('2d');
+              gtx2r.clearRect(0, 0, 512, 512);
+              gtx2r.save();
+              gtx2r.translate(ghostOffset2, ghostOffset2);
+              gtx2r.drawImage(panelRed, 0, 0);
+              gtx2r.restore();
+              offCtx.drawImage(ghostIcon2Red, 0, 0);
+            }
+            
+            if (ghostIconRed) {
+              const gtx1r = ghostIconRed.getContext('2d');
+              gtx1r.clearRect(0, 0, 512, 512);
+              gtx1r.save();
+              gtx1r.translate(ghostOffset1, ghostOffset1);
+              gtx1r.drawImage(panelRed, 0, 0);
+              gtx1r.restore();
+              offCtx.drawImage(ghostIconRed, 0, 0);
+            }
+            
+            if (panelRed) offCtx.drawImage(panelRed, 0, 0);
+          }
+
+          // Draw text
+          const textContainer = document.getElementById('textContainer');
+          const textContainerRed = document.getElementById('textContainerRed');
+          
+          // Create a temporary canvas for text
+          const textCanvas = document.createElement('canvas');
+          textCanvas.width = 512;
+          textCanvas.height = 256;
+          const textCtx = textCanvas.getContext('2d');
+          
+          // Draw main text
+          textCtx.save();
+          const textStyle = window.getComputedStyle(textContainer);
+          textCtx.font = textStyle.font;
+          textCtx.textAlign = 'center';
+          textCtx.textBaseline = 'middle';
+          
+          // Apply text texture if available
+          const textTexture = document.querySelector('.texture-preview');
+          if (textTexture && textTexture.complete) {
+            const pattern = textCtx.createPattern(textTexture, 'repeat');
+            textCtx.fillStyle = pattern;
+          } else {
+            textCtx.fillStyle = 'white';
+          }
+          
+          textCtx.fillText(textContainer.textContent, 256, 128);
+          
+          // Apply background clip if needed
+          if (textContainer.style.backgroundClip) {
+            textCtx.globalCompositeOperation = 'source-in';
+            const bgImg = document.getElementById('bgPreview');
+            if (bgImg && bgImg.complete) {
+              const pattern = textCtx.createPattern(bgImg, 'repeat');
+              textCtx.fillStyle = pattern;
+              textCtx.fillRect(0, 0, 512, 256);
+            }
+          }
+          
+          // Draw red text if in final theme
+          if (document.body.classList.contains('final-theme')) {
+            textCtx.globalCompositeOperation = 'source-over';
+            const redStyle = window.getComputedStyle(textContainerRed);
+            textCtx.globalAlpha = parseFloat(redStyle.opacity || '0.8');
+            
+            const redTexture = document.querySelector('.red-texture-preview');
+            if (redTexture && redTexture.complete) {
+              const pattern = textCtx.createPattern(redTexture, 'repeat');
+              textCtx.fillStyle = pattern;
+            } else {
+              textCtx.fillStyle = 'rgba(255, 0, 0, 0.8)';
+            }
+            
+            textCtx.fillText(textContainerRed.textContent, 256, 128);
+          }
+          
+          textCtx.restore();
+          
+          // Draw the text onto our main canvas
+          offCtx.drawImage(textCanvas, 0, 0);
+          
+          // Add frame to GIF
+          gif.addFrame(offscreenCanvas, { delay, copy: true });
+          
+          // Allow UI to update
+          await new Promise(resolve => setTimeout(resolve, 0));
+        }
+
+        if (!isExporting) {
+          btn.remove();
+          return;
+        }
+
+        // Restore original animation functions
+        window.animateSineWrapper = originalAnimateSineWrapper;
+        window.drawGhostIcon = originalDrawGhostIcon;
+        window.drawPanel = originalDrawPanel;
+        window.drawBackground = originalDrawBackground;
+        
+        // Reset scroll offset
+        scrollOffset = originalScrollOffset;
+        
+        // Force redraw
+        drawPanel();
+        drawBackground();
+        
+        // Start rendering the GIF
+        gif.on('finished', (blob) => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'prophecy-animation.gif';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          btn.textContent = 'GIF Exported!';
+          setTimeout(() => btn.remove(), 2000);
+          isExporting = false;
+        });
+
+        gif.render();
+
+      } catch (error) {
+        console.error("Error exporting GIF:", error);
+        if (btn.parentNode) {
+          btn.textContent = 'Export Failed';
+          setTimeout(() => btn.remove(), 2000);
+        }
+        isExporting = false;
+      }
+    }
+
+    // Add export button
+    const exportBtn = document.createElement('button');
+    exportBtn.className = 'custom-file-upload';
+    exportBtn.textContent = 'Export as GIF';
+    exportBtn.onclick = exportAsGif;
+    document.querySelector('h1').insertAdjacentElement('afterend', exportBtn);
+
     fetch('./assets/scripts/license.key')
       .then(res => {
         if (!res.ok) throw new Error('File not found');

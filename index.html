@@ -6,7 +6,6 @@
   <title>DeltaProphecy</title>
   <link rel="icon" type="image/png" href="/assets/favicon.png">
 
-  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js" integrity="sha512-nNOFtIS+H0lwgdUDaPn/g1ssw3uN9AkEM7zy2wLaTQeLQNeNiitUcLpEpDIh3Z4T22MdeTNru/SQbNM4ig2rng==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.min.js"></script>
 
@@ -487,7 +486,7 @@
       margin-top: 2px;
       gap: 4px;
       user-select: none;
-      grid-column: span 2;
+      grid-column: span 1;
       justify-self: center;
     }
 
@@ -583,12 +582,61 @@
       gap: 10px;
       margin-top: 15px;
     }
+
+    #gifYOffset {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 125px;
+      height: 10px;
+      background: transparent;
+      cursor: pointer;
+      margin: 0;
+      align-self: center;
+    }
+
+    #gifYOffset::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 0px;
+    }
+
+    #gifYOffset::-moz-range-track {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 0px;
+    }
+
+    #gifYOffset::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      background: white;
+      border: none;
+      margin-top: -2px;
+      box-shadow: 0 0 2px rgba(0,0,0,0.5);
+      cursor: pointer;
+    }
+
+    #gifYOffset::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      background: white;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    }
+
+    .sliderWrapper > #gifYOffsetValue {
+      margin-top: auto;
+    }
   </style>
 </head>
 <body>
   <div class="heading-container">
     <h1>Deltarune Prophecy Panel Generator</h1>
-    <p>Release v3.0.0</p>
+    <p>Beta 1.7.9</p>
   </div>
   <input type="file" id="imgInput" accept="image/*" style="display:none;" />
   <label for="imgInput" class="custom-file-upload">Upload Image</label>
@@ -618,19 +666,6 @@
 
   <div style="height: 10px;"></div>
   <button onclick="toggleAdvancedSettings()" class="custom-file-upload">Advanced Settings</button>
-
-  
-  <div class="export-section">
-    <button id="exportWebpBtn" class="custom-file-upload">Export Animated GIF</button>
-    <div id="exportProgress" style="display: none;">
-      <div>Capturing frames: <span id="frameCount">0</span>/<span id="totalFrames">60</span></div>
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-      <div>Progress: <span id="progressPercent">0</span>%</div>
-      <div id="exportStatus">Preparing...</div>
-    </div>
-  </div>
 
   <div id="advancedSettings" style="display: none; margin-top: 10px;">
     <div id="advancedGrid">
@@ -679,6 +714,24 @@
         <span id="fontScaleValue" class="fileLabel">1.00×</span>
       </div>
 
+      <div class="sliderWrapper">
+        <label for="gifYOffset" class="fileLabel">GIF Panel Y Offset</label>
+        <input type="range" id="gifYOffset" min="-50" max="50" step="1" value="0">
+        <span id="gifYOffsetValue" class="fileLabel">0px</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="export-section">
+    <button id="exportWebpBtn" class="custom-file-upload">Export Animated GIF</button>
+    <div id="exportProgress" style="display: none;">
+      <div>Captured frames: <span id="frameCount">0</span>/<span id="totalFrames">60</span></div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div>Progress: <span id="progressPercent">0</span>%</div>
+      <div id="exportStatus">Preparing...</div>
     </div>
   </div>
 
@@ -1140,7 +1193,7 @@
       const exportTimeout = setTimeout(() => {
         alert('yeah if you’re seeing this i fucked up and the export timed out, it worked on my end when i tested it so like maybe just refresh the page');
         resetExportUI();
-      }, 30000); 
+      }, 90000); 
 
       try {
 
@@ -1263,6 +1316,9 @@
 
         const canvasY = textY + 50; 
 
+        const gifYOffsetSlider = document.getElementById('gifYOffset');
+        const gifYOffset = parseInt(gifYOffsetSlider.value) || 0;
+
         const bgCanvas = document.getElementById('background');
         const bgRedCanvas = document.getElementById('backgroundRed');
 
@@ -1358,7 +1414,7 @@
                 ctx.translate(offset, offset);
               }
 
-              ctx.drawImage(panelCanvas, 0, canvasY - 25);
+              ctx.drawImage(panelCanvas, 0, canvasY - 25 - gifYOffset);
               ctx.restore();
             }
           }
@@ -1807,6 +1863,13 @@
       document.getElementById("textContainerRed").style.transform = `scale(${scale})`;
     });
 
+    const gifYOffset = document.getElementById("gifYOffset");
+    const gifYOffsetValue = document.getElementById("gifYOffsetValue");
+
+    gifYOffset.addEventListener("input", () => {
+      const offset = parseInt(gifYOffset.value);
+      gifYOffsetValue.textContent = `${offset}px`;
+    });
   </script>
 
   <script>

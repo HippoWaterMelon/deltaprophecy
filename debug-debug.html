@@ -4,19 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DeltaProphecy</title>
-  <link rel="icon" type="image/png" href="/assets/favicon.png?">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+
   
-  <!-- External Libraries for WebP Export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js" integrity="sha512-nNOFtIS+H0lwgdUDaPn/g1ssw3uN9AkEM7zy2wLaTQeLQNeNiitUcLpEpDIh3Z4T22MdeTNru/SQbNM4ig2rng==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.min.js"></script>
-  
+
   <style>
     @font-face {
       font-family: 'ProphecyType';
       src: url('./assets/fonts/PROPHECYTYPE.ttf') format('truetype');
       font-display: swap;
     }
-    
 
     @font-face {
       font-family: 'DTMSans';
@@ -90,7 +89,7 @@
       0%, 100% { opacity: 0; }
       50% { opacity: 0.4; }
     }
-    
+
     @keyframes pulseFinalGhost2 {
       0%, 100% { opacity: 0; }
       50% { opacity: 0.2; }
@@ -141,7 +140,7 @@
     body.final-theme #ghostIcon {
       animation: pulseFinalGhost1 2s infinite 1s;
     }
-    
+
     body.final-theme #ghostIcon2 {
       animation: pulseFinalGhost2 2s infinite 1s;
     }
@@ -162,7 +161,7 @@
       opacity: 0;
       animation: pulseFinalGhost1 2s infinite;
     }
-    
+
     #ghostIcon2Red {
       z-index: 11;
       pointer-events: none;
@@ -195,7 +194,6 @@
       opacity: 0;
       pointer-events: none;
       animation: pulseFinalBG 2s infinite;
-      filter: blur(1.5px);
     }
 
     #background {
@@ -212,7 +210,6 @@
       image-rendering: -moz-crisp-edges;
       image-rendering: -webkit-optimize-contrast;
       opacity: 0.5;
-      filter: blur(1.5px);
     }
 
     body.susie-theme #background {
@@ -236,10 +233,14 @@
       width: 100%;
     }
 
-    h1 {
+    .heading-container {
       margin-top: 15px;
       margin-bottom: 20px;
       text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 5px;
     }
 
     footer {
@@ -377,17 +378,17 @@
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
-      text-align: center;
+      text-align: left;
       margin-top: 10px;
       width: 125px;
       max-width: 512px;
     }
-    
+
     select#styleSelect:hover {
       background-color: #222;
       border-color: #fff;
     }
-    
+
     select#styleSelect:focus {
       outline: none;
       border-color: #fff;
@@ -403,14 +404,14 @@
       align-items: center;
       background-color: black;
     }
-    
+
     #advancedSettings {
       display: flex;
       justify-content: center;
       align-items: center;
       margin-top: 10px;
     }
-    
+
     #advancedGrid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -421,14 +422,14 @@
       text-align: center;
       max-width: 400px;
     }
-    
+
     .advancedCell {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
     }
-    
+
     .previewBox {
       width: 96px;
       height: 96px;
@@ -444,7 +445,7 @@
       object-fit: contain;
       overflow: hidden;
     }
-    
+
     .fileLabel {
       font-family: 'DTMSans', sans-serif;
       font-size: 12px;
@@ -466,12 +467,12 @@
       text-align: center;
       margin-top: 4px;
     }
-    
+
     .custom-file-upload.small:hover {
       background-color: #222;
       border-color: #fff;
     }
-    
+
     .custom-file-upload.small:active {
       background-color: #111;
     }
@@ -489,7 +490,7 @@
       grid-column: span 2;
       justify-self: center;
     }
-    
+
     #fontScale {
       -webkit-appearance: none;
       appearance: none;
@@ -500,21 +501,21 @@
       margin: 0;
       align-self: center;
     }
-    
+
     #fontScale::-webkit-slider-runnable-track {
       width: 100%;
       height: 10px;
       background: rgba(255, 255, 255, 0.2);
       border-radius: 0px;
     }
-    
+
     #fontScale::-moz-range-track {
       width: 100%;
       height: 10px;
       background: rgba(255, 255, 255, 0.2);
       border-radius: 0px;
     }
-    
+
     #fontScale::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 15px;
@@ -525,7 +526,7 @@
       box-shadow: 0 0 2px rgba(0,0,0,0.5);
       cursor: pointer;
     }
-    
+
     #fontScale::-moz-range-thumb {
       width: 15px;
       height: 15px;
@@ -538,7 +539,7 @@
     .sliderWrapper > .fileLabel:first-child {
       margin-bottom: auto;
     }
-    
+
     .sliderWrapper > #fontScaleValue {
       margin-top: auto;
     }
@@ -547,9 +548,8 @@
       transition: font-size 0.1s ease;
     }
 
-    /* Export Progress Styles */
     #exportProgress {
-      
+
       padding: 10px;
       border-radius: 0px;
       background-color: black;
@@ -586,7 +586,10 @@
   </style>
 </head>
 <body>
-  <h1>Deltarune Prophecy Panel Generator</h1>
+  <div class="heading-container">
+    <h1>Deltarune Prophecy Panel Generator</h1>
+    <p>Release v3.0.0</p>
+  </div>
   <input type="file" id="imgInput" accept="image/*" style="display:none;" />
   <label for="imgInput" class="custom-file-upload">Upload Image</label>
   <input type="text" id="textInput" placeholder="Enter prophecy text" />
@@ -615,8 +618,8 @@
 
   <div style="height: 10px;"></div>
   <button onclick="toggleAdvancedSettings()" class="custom-file-upload">Advanced Settings</button>
+
   
-  <!-- Export Section -->
   <div class="export-section">
     <button id="exportWebpBtn" class="custom-file-upload">Export Animated GIF</button>
     <div id="exportProgress" style="display: none;">
@@ -628,7 +631,7 @@
       <div id="exportStatus">Preparing...</div>
     </div>
   </div>
-  
+
   <div id="advancedSettings" style="display: none; margin-top: 10px;">
     <div id="advancedGrid">
 
@@ -642,7 +645,7 @@
           <input type="file" id="fontUpload" accept=".ttf,.otf" style="display: none;" />
         </label>
       </div>
-  
+
       <div class="advancedCell">
         <img id="textPreview" class="previewBox" />
         <div class="fileLabel">Text Texture</div>
@@ -651,7 +654,7 @@
           <input type="file" id="textTextureUpload" accept="image/*" style="display: none;" />
         </label>
       </div>
-  
+
       <div class="advancedCell">
         <img id="panelPreview" class="previewBox" />
         <div class="fileLabel">Panel Texture</div>
@@ -660,7 +663,7 @@
           <input type="file" id="panelImageUpload" accept="image/*" style="display: none;" />
         </label>
       </div>
-  
+
       <div class="advancedCell">
         <img id="bgPreview" class="previewBox" />
         <div class="fileLabel">Background Texture</div>
@@ -678,7 +681,7 @@
 
     </div>
   </div>
-  
+
   <div style="height: 30px;"></div>
   <div id="sineWrapper">
     <div id="overlayWrapper">
@@ -698,8 +701,7 @@
   </div>
 
   <div id="directions">
-  <p>Upload a white-only or black-and-white image above to begin. Type your prophecy text in the box. You can use \n to move to a new line.<br><br>Click "Export Animated GIF" to capture a 2-second animation loop! For WebP conversion, use online tools like ezgif.com.<br><br>If your image isn't monochrome, you can make it so <a href="./monochrome.html" target="_blank" rel="noopener noreferrer">here</a>.
-</p>
+    <p>Upload a white-only or black-and-white image above to begin. Type your prophecy text in the box. You can use \n to move to a new line.<br><br>I finally got GIF exports to work...<br>🎉 yay! 🎉<br><br>If your image isn't monochrome, you can make it so <a href="./monochrome.html" target="_blank" rel="noopener noreferrer">here</a>.</p>
   </div>
   <footer>
     <p>© HippoWaterMelon 2025 - DELTARUNE © 2025 Toby Fox - <span class="alt-font">ProphecyType</span> by u/RelevantAd2788 - Determination Sans by Haley Wakamatsu</p>
@@ -738,7 +740,6 @@
     let backgroundTileRed = null;
     let backgroundScrollOffset = 0;
 
-    // WebP Export Variables
     let isExporting = false;
 
     const panelPresets = {
@@ -959,13 +960,13 @@
       if (!maskImage || !placeholder) return;
 
       scrollOffset = (scrollOffset + 1) % placeholder.width;
-      
+
       const canvasSize = 256;
 
       ctx.clearRect(0, 0, 512, 512);
       ctx.imageSmoothingEnabled = false;
       resultCanvas = createResultCanvas(placeholder, canvasSize);
-      
+
       if (resultCanvas) {
         let scale = parseFloat(imgScale.value);
         const scaledW = resultCanvas.width * scale;
@@ -979,7 +980,7 @@
         ctxRed.clearRect(0, 0, 512, 512);
         ctxRed.imageSmoothingEnabled = false;
         resultCanvasRed = createResultCanvas(placeholderRed, canvasSize);
-        
+
         if (resultCanvasRed) {
           let scale = parseFloat(imgScale.value);
           const scaledW = resultCanvasRed.width * scale;
@@ -1039,31 +1040,23 @@
       if (!backgroundTile) return;
 
       backgroundScrollOffset = (backgroundScrollOffset + 0.5) % backgroundTile.width;
+
       bgCtx.clearRect(0, 0, 512, 256);
       bgCtx.imageSmoothingEnabled = false;
 
+      bgCtx.filter = 'blur(1.5px)';
+
       const scale = parseFloat(imgScale.value);
       const yOffset = -parseInt(imgYOffset.value, 10);
-      
+
       const scaledTileWidth = backgroundTile.width * scale;
       const scaledTileHeight = backgroundTile.height * scale;
-      
+
       const offset = (backgroundScrollOffset * scale) % scaledTileWidth;
 
       for (let y = -offset + yOffset; y < 256 + scaledTileHeight + yOffset; y += scaledTileHeight) {
         for (let x = -offset; x < 512 + scaledTileWidth; x += scaledTileWidth) {
           bgCtx.drawImage(backgroundTile, x, y, scaledTileWidth, scaledTileHeight);
-        }
-      }
-
-      if (backgroundTileRed) {
-        bgRedCtx.clearRect(0, 0, 512, 256);
-        bgRedCtx.imageSmoothingEnabled = false;
-
-        for (let y = -offset + yOffset; y < 256 + scaledTileHeight + yOffset; y += scaledTileHeight) {
-          for (let x = -offset; x < 512 + scaledTileWidth; x += scaledTileWidth) {
-            bgRedCtx.drawImage(backgroundTileRed, x, y, scaledTileWidth, scaledTileHeight);
-          }
         }
       }
 
@@ -1090,7 +1083,19 @@
       bgCtx.fillRect(0, 0, 512, 256); 
       bgCtx.restore();
 
+      bgCtx.filter = 'none';
+
       if (backgroundTileRed) {
+        bgRedCtx.clearRect(0, 0, 512, 256);
+        bgRedCtx.imageSmoothingEnabled = false;
+        bgRedCtx.filter = 'blur(1.5px)';
+
+        for (let y = -offset + yOffset; y < 256 + scaledTileHeight + yOffset; y += scaledTileHeight) {
+          for (let x = -offset; x < 512 + scaledTileWidth; x += scaledTileWidth) {
+            bgRedCtx.drawImage(backgroundTileRed, x, y, scaledTileWidth, scaledTileHeight);
+          }
+        }
+
         bgRedCtx.save();
         bgRedCtx.translate(imageX + scaledW/2, imageY);
         bgRedCtx.scale(radiusX / radiusY, 1); 
@@ -1104,6 +1109,8 @@
         bgRedCtx.fillStyle = redGradient;
         bgRedCtx.fillRect(0, 0, 512, 256); 
         bgRedCtx.restore();
+
+        bgRedCtx.filter = 'none';
       }
     }
 
@@ -1114,10 +1121,9 @@
       }
     }
 
-    // WebP Export Functions - Optimized Version
     async function exportAnimatedWebP() {
       if (isExporting) return;
-      
+
       isExporting = true;
       const btn = document.getElementById('exportWebpBtn');
       const progressDiv = document.getElementById('exportProgress');
@@ -1126,51 +1132,51 @@
       const progressSpan = document.getElementById('progressPercent');
       const progressFill = document.getElementById('progressFill');
       const statusSpan = document.getElementById('exportStatus');
-      
+
       btn.textContent = 'Exporting...';
       btn.disabled = true;
       progressDiv.style.display = 'block';
-      
+
+      const exportTimeout = setTimeout(() => {
+        alert('yeah if you’re seeing this i fucked up and the export timed out, it worked on my end when i tested it so like maybe just refresh the page');
+        resetExportUI();
+      }, 30000); 
+
       try {
-        // Configuration - Reduced frames for speed
-        const frameCount = 30; // 1 second at 30fps for faster capture
-        const frameDelay = 67; // ~15fps output
-        
+
+        const frameCount = 1200; 
+        const frameDelay = 16; 
+
         totalFramesSpan.textContent = frameCount;
         statusSpan.textContent = 'Initializing...';
-        
-        // Use inline worker to avoid CORS issues
+
         const gif = new GIF({
-          workers: 2, // Reduce workers to avoid issues
-          quality: 15, // Slightly lower quality for speed
+          workers: 16, 
+          quality: 15, 
           width: 512,
           height: 306,
-          transparent: null, // Remove transparency to avoid issues
-          dither: false, // Disable dithering for speed
+          transparent: null, 
+          dither: false, 
           workerScript: './assets/scripts/gif.worker.js'
         });
-        
+
         statusSpan.textContent = 'Capturing frames...';
-        
-        // Capture frames with faster method
+
         const frames = [];
         for (let i = 0; i < frameCount; i++) {
           frameCountSpan.textContent = i + 1;
           const progress = Math.round((i / frameCount) * 70);
           progressSpan.textContent = progress;
           progressFill.style.width = progress + '%';
-          
-          // Fast capture method
+
           const canvas = await captureFrameFast();
           if (canvas) {
             frames.push(canvas);
           }
-          
-          // Shorter delay between captures
-          await new Promise(resolve => setTimeout(resolve, 16)); // ~60fps capture
+
+          await new Promise(resolve => setTimeout(resolve, 16)); 
         }
-        
-        // Add frames to GIF
+
         statusSpan.textContent = 'Processing frames...';
         for (let i = 0; i < frames.length; i++) {
           gif.addFrame(frames[i], { delay: frameDelay });
@@ -1178,24 +1184,23 @@
           progressSpan.textContent = progress;
           progressFill.style.width = progress + '%';
         }
-        
-        // Render GIF
+
         statusSpan.textContent = 'Rendering GIF...';
         progressSpan.textContent = '85';
         progressFill.style.width = '85%';
-        
+
         gif.on('progress', function(p) {
           const progress = Math.round(85 + p * 15);
           progressSpan.textContent = progress;
           progressFill.style.width = progress + '%';
         });
-        
+
         gif.on('finished', function(blob) {
+          clearTimeout(exportTimeout);
           statusSpan.textContent = 'Download ready!';
           progressSpan.textContent = '100';
           progressFill.style.width = '100%';
-          
-          // Download the GIF
+
           const url = URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url;
@@ -1204,24 +1209,20 @@
           a.click();
           document.body.removeChild(a);
           URL.revokeObjectURL(url);
-          
-          // Show success message
-          setTimeout(() => {
-            alert('GIF exported successfully! 🎉\n\nFor WebP conversion, try:\n• ezgif.com (GIF to WebP)\n• cloudconvert.com\n• convertio.co');
-          }, 100);
-          
-          // Reset UI
+
           resetExportUI();
         });
-        
+
         gif.on('abort', function() {
+          clearTimeout(exportTimeout);
           statusSpan.textContent = 'Export cancelled';
           resetExportUI();
         });
-        
+
         gif.render();
-        
+
       } catch (error) {
+        clearTimeout(exportTimeout);
         console.error('Export failed:', error);
         statusSpan.textContent = 'Export failed: ' + error.message;
         alert('Export failed: ' + error.message + '\n\nTry refreshing the page and trying again.');
@@ -1232,87 +1233,140 @@
     function resetExportUI() {
       const btn = document.getElementById('exportWebpBtn');
       const progressDiv = document.getElementById('exportProgress');
-      
+
       btn.textContent = 'Export Animated GIF';
       btn.disabled = false;
-      
+
       setTimeout(() => {
         progressDiv.style.display = 'none';
       }, 3000);
-      
+
       isExporting = false;
     }
 
-    // Fast canvas-based capture instead of DOM-to-image
     async function captureFrameFast() {
       try {
-        // Create a composite canvas directly from existing canvases
         const canvas = document.createElement('canvas');
         canvas.width = 512;
         canvas.height = 306;
         const ctx = canvas.getContext('2d');
-        
-        // Fill with black background
+
+        ctx.imageSmoothingEnabled = false;
+
         ctx.fillStyle = '#000000';
         ctx.fillRect(0, 0, 512, 306);
-        
-        // Draw background layers
+
+        const t = performance.now() / 1000;
+        const sineOffset = Math.sin(t * 1.5) * 10;
+
+        const textY = 20 + sineOffset; 
+
+        const canvasY = textY + 50; 
+
         const bgCanvas = document.getElementById('background');
         const bgRedCanvas = document.getElementById('backgroundRed');
-        
+
         if (bgCanvas) {
-          ctx.drawImage(bgCanvas, 0, 50); // Offset for text space
+
+          const bgStyle = window.getComputedStyle(bgCanvas);
+          const bgOpacity = parseFloat(bgStyle.opacity) || 0.5;
+
+          ctx.save();
+          ctx.globalAlpha = bgOpacity;
+
+          ctx.filter = 'blur(1.5px)';
+          ctx.drawImage(bgCanvas, 0, canvasY);
+          ctx.restore();
         }
-        
-        if (bgRedCanvas && bgRedCanvas.style.opacity !== '0') {
-          ctx.globalAlpha = parseFloat(bgRedCanvas.style.opacity) || 1;
-          ctx.drawImage(bgRedCanvas, 0, 50);
-          ctx.globalAlpha = 1;
+
+        if (bgRedCanvas) {
+          const bgRedStyle = window.getComputedStyle(bgRedCanvas);
+          const bgRedOpacity = parseFloat(bgRedStyle.opacity) || 0;
+
+          if (bgRedOpacity > 0) {
+            ctx.save();
+            ctx.globalAlpha = bgRedOpacity;
+
+            ctx.filter = 'blur(1.5px)';
+            ctx.drawImage(bgRedCanvas, 0, canvasY);
+            ctx.restore();
+          }
         }
-        
-        // Draw main panel layers
-        const panels = ['ghostIcon2', 'ghostIcon', 'panel'];
-        const redPanels = ['ghostIcon2Red', 'ghostIconRed', 'panelRed'];
-        
-        for (const panelId of panels) {
-          const panelCanvas = document.getElementById(panelId);
+
+        ctx.filter = 'none';
+
+        const panelLayers = [
+          { id: 'ghostIcon2', baseOpacity: 0.2, offset: true, multiplier: 2, isGhost: true },
+          { id: 'ghostIcon', baseOpacity: 0.4, offset: true, multiplier: 1, isGhost: true },
+          { id: 'panel', baseOpacity: 1, offset: false },
+          { id: 'ghostIcon2Red', baseOpacity: 0.2, offset: true, multiplier: 2, pulsing: true },
+          { id: 'ghostIconRed', baseOpacity: 0.4, offset: true, multiplier: 1, pulsing: true },
+          { id: 'panelRed', baseOpacity: 1, offset: false, pulsing: true }
+        ];
+
+        const ghostOffset1 = Math.sin(t * 2) * 2;
+        const ghostOffset2 = ghostOffset1 * 2;
+
+        for (const layer of panelLayers) {
+          const panelCanvas = document.getElementById(layer.id);
           if (panelCanvas) {
-            const opacity = parseFloat(window.getComputedStyle(panelCanvas).opacity) || 1;
+            const computedStyle = window.getComputedStyle(panelCanvas);
+            let baseOpacity = parseFloat(computedStyle.opacity) || 0;
+            let opacity = baseOpacity;
+
+            const isFinalTheme = document.body.classList.contains('final-theme');
+            const isGhostElement = layer.id.includes('ghost');
+            const isRedElement = layer.id.includes('Red');
+
+            if (isFinalTheme && isGhostElement && !isRedElement) {
+
+              if (t < 1) {
+
+                opacity = 0;
+              } else {
+                const phase = ((t - 1) % 2) / 2;
+                const pulseOpacity = phase < 0.5
+                    ? (phase * 2)          
+                    : (1 - (phase - 0.5) * 2); 
+                opacity = layer.baseOpacity * pulseOpacity;
+              }
+            } else if (layer.pulsing) {
+
+              const phase = (t % 2) / 2;
+              const pulseOpacity = phase < 0.5
+                  ? (phase * 2)          
+                  : (1 - (phase - 0.5) * 2); 
+
+              if (layer.id.includes('ghostIcon2')) {
+                opacity = pulseOpacity * 0.2; 
+              } else if (layer.id.includes('ghostIcon')) {
+                opacity = pulseOpacity * 0.4; 
+              } else {
+                opacity = pulseOpacity; 
+              }
+            }
+
             if (opacity > 0) {
+              ctx.save();
               ctx.globalAlpha = opacity;
-              ctx.drawImage(panelCanvas, 0, 50);
-              ctx.globalAlpha = 1;
+              ctx.imageSmoothingEnabled = false;
+
+              ctx.filter = 'none';
+
+              if (layer.offset) {
+                const offset = layer.multiplier === 2 ? ghostOffset2 : ghostOffset1;
+                ctx.translate(offset, offset);
+              }
+
+              ctx.drawImage(panelCanvas, 0, canvasY - 25);
+              ctx.restore();
             }
           }
         }
-        
-        // Draw red panels if visible
-        for (const panelId of redPanels) {
-          const panelCanvas = document.getElementById(panelId);
-          if (panelCanvas) {
-            const opacity = parseFloat(window.getComputedStyle(panelCanvas).opacity) || 1;
-            if (opacity > 0) {
-              ctx.globalAlpha = opacity;
-              ctx.drawImage(panelCanvas, 0, 50);
-              ctx.globalAlpha = 1;
-            }
-          }
-        }
-        
-        // Draw text using canvas text instead of DOM capture
-        const textContainer = document.getElementById('textContainer');
-        const textContainerRed = document.getElementById('textContainerRed');
-        
-        if (textContainer) {
-          drawTextToCanvas(ctx, textContainer, false);
-        }
-        
-        if (textContainerRed && parseFloat(window.getComputedStyle(textContainerRed).opacity) > 0) {
-          ctx.globalAlpha = parseFloat(window.getComputedStyle(textContainerRed).opacity) || 1;
-          drawTextToCanvas(ctx, textContainerRed, true);
-          ctx.globalAlpha = 1;
-        }
-        
+
+        ctx.filter = 'none';
+        drawTextToCanvas(ctx, textY);
+
         return canvas;
       } catch (error) {
         console.error('Fast capture failed:', error);
@@ -1320,41 +1374,154 @@
       }
     }
 
-    function drawTextToCanvas(ctx, textElement, isRed) {
+    function drawTextToCanvas(ctx, textY) {
       try {
-        // Get text content and styling
-        const text = textElement.textContent || 'Your prophecy here';
-        const style = window.getComputedStyle(textElement);
-        const fontSize = parseInt(style.fontSize) || 32;
-        const fontFamily = style.fontFamily || 'ProphecyType, serif';
-        
-        // Set up text rendering
+        const textContainer = document.getElementById('textContainer');
+        const textContainerRed = document.getElementById('textContainerRed');
+
+        const text = textInput.value || 'Your prophecy here';
+
+        const baseFontSize = 32; 
+
+        const fontScaleSlider = document.getElementById('fontScale');
+        const fontScale = parseFloat(fontScaleSlider.value) || 1;
+        const fontSize = baseFontSize * fontScale; 
+
+        const computedStyle = window.getComputedStyle(textContainer);
+        const fontFamily = computedStyle.fontFamily || 'ProphecyType, serif';
+
+        ctx.imageSmoothingEnabled = false;
         ctx.font = `${fontSize}px ${fontFamily}`;
         ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        
-        // Create gradient for text (simplified)
-        const gradient = ctx.createLinearGradient(0, 0, 512, 50);
-        if (isRed) {
-          gradient.addColorStop(0, '#ff0000');
-          gradient.addColorStop(0.5, '#ff4444');
-          gradient.addColorStop(1, '#cc0000');
-        } else {
-          gradient.addColorStop(0, '#4488ff');
-          gradient.addColorStop(0.5, '#66aaff');
-          gradient.addColorStop(1, '#2266cc');
+        ctx.textBaseline = 'top';
+
+        const lines = text.split(/\\n|\n/);
+        const lineHeight = fontSize * 1.0; 
+
+        const startY = textY;
+
+        const gradient = ctx.createLinearGradient(0, startY, 512, startY + 50);
+        gradient.addColorStop(0, '#4488ff');
+        gradient.addColorStop(0.5, '#66aaff');
+        gradient.addColorStop(1, '#2266cc');
+
+        let textPattern = null;
+        const textBgImage = textContainer.style.backgroundImage;
+
+        if (textBgImage && textBgImage !== 'none') {
+          try {
+
+            const urlMatch = textBgImage.match(/url\(["']?([^"')]+)["']?\)/);
+            if (urlMatch && urlMatch[1].startsWith('data:')) {
+
+              const patternImg = new Image();
+              patternImg.src = urlMatch[1];
+
+              if (patternImg.complete) {
+
+                const patternCanvas = document.createElement('canvas');
+                patternCanvas.width = 256;
+                patternCanvas.height = 256;
+                const patternCtx = patternCanvas.getContext('2d');
+                patternCtx.imageSmoothingEnabled = false;
+
+                const animationTime = (performance.now() / 1000) % 30;
+                const scrollProgress = animationTime / 30;
+                const scrollOffset = scrollProgress * 256;
+
+                for (let y = -scrollOffset; y < 512; y += 256) {
+                  for (let x = -scrollOffset; x < 512; x += 256) {
+                    patternCtx.drawImage(patternImg, x % 256, y % 256);
+                  }
+                }
+
+                textPattern = ctx.createPattern(patternCanvas, 'repeat');
+              }
+            }
+          } catch (e) {
+            console.warn('Failed to create text pattern:', e);
+          }
         }
-        
-        ctx.fillStyle = gradient;
-        
-        // Draw text lines
-        const lines = text.split('\n');
-        const lineHeight = fontSize * 1.2;
-        const startY = 25 - ((lines.length - 1) * lineHeight / 2);
-        
+
+        ctx.fillStyle = textPattern || gradient;
+
+        ctx.save();
+        ctx.scale(fontScale, fontScale);
+        const scaledX = 256 / fontScale;
+        const scaledStartY = startY / fontScale;
+        const scaledLineHeight = lineHeight / fontScale;
+
         lines.forEach((line, index) => {
-          ctx.fillText(line.trim(), 256, startY + (index * lineHeight));
+          const lineY = scaledStartY + (index * scaledLineHeight);
+          ctx.fillText(line.trim(), scaledX, lineY);
         });
+
+        ctx.restore();
+
+        const redStyle = window.getComputedStyle(textContainerRed);
+        const redOpacity = parseFloat(redStyle.opacity) || 0;
+
+        if (redOpacity > 0) {
+
+          const t = performance.now() / 1000;
+          const pulseOpacity = (Math.sin(t * Math.PI) + 1) / 2;
+          const finalRedOpacity = redOpacity * pulseOpacity;
+
+          if (finalRedOpacity > 0) {
+            ctx.save();
+            ctx.globalAlpha = finalRedOpacity;
+
+            const redGradient = ctx.createLinearGradient(0, startY, 512, startY + 50);
+            redGradient.addColorStop(0, '#ff0000');
+            redGradient.addColorStop(0.5, '#ff4444');
+            redGradient.addColorStop(1, '#cc0000');
+
+            let redTextPattern = null;
+            const redTextBgImage = textContainerRed.style.backgroundImage;
+
+            if (redTextBgImage && redTextBgImage !== 'none' && redTextBgImage !== textBgImage) {
+              try {
+                const urlMatch = redTextBgImage.match(/url\(["']?([^"')]+)["']?\)/);
+                if (urlMatch && urlMatch[1].startsWith('data:')) {
+                  const redPatternImg = new Image();
+                  redPatternImg.src = urlMatch[1];
+
+                  if (redPatternImg.complete) {
+                    const redPatternCanvas = document.createElement('canvas');
+                    redPatternCanvas.width = 256;
+                    redPatternCanvas.height = 256;
+                    const redPatternCtx = redPatternCanvas.getContext('2d');
+                    redPatternCtx.imageSmoothingEnabled = false;
+
+                    const animationTime = (performance.now() / 1000) % 30;
+                    const scrollProgress = animationTime / 30;
+                    const scrollOffset = scrollProgress * 256;
+
+                    for (let y = -scrollOffset; y < 512; y += 256) {
+                      for (let x = -scrollOffset; x < 512; x += 256) {
+                        redPatternCtx.drawImage(redPatternImg, x % 256, y % 256);
+                      }
+                    }
+
+                    redTextPattern = ctx.createPattern(redPatternCanvas, 'repeat');
+                  }
+                }
+              } catch (e) {
+                console.warn('Failed to create red text pattern:', e);
+              }
+            }
+
+            ctx.fillStyle = redTextPattern || redGradient;
+
+            ctx.scale(fontScale, fontScale);
+            lines.forEach((line, index) => {
+              const lineY = scaledStartY + (index * scaledLineHeight);
+              ctx.fillText(line.trim(), scaledX, lineY);
+            });
+
+            ctx.restore();
+          }
+        }
       } catch (error) {
         console.error('Text drawing failed:', error);
       }
@@ -1374,7 +1541,6 @@
       return canvas;
     }
 
-    // Event Listeners
     document.getElementById('exportWebpBtn').addEventListener('click', exportAnimatedWebP);
 
     imgInput.addEventListener('change', (e) => {
@@ -1411,29 +1577,29 @@
     let customTextTexture = null;
     let customBackgroundTile = null;
     let customPanelTexture = null;
-    
+
     function reloadAssetsAndRedraw() {
       const isFinalStyle = styleSelect.value === 'final';
       const isCustom = customTextTexture || customBackgroundTile || customPanelTexture;
-    
+
       const promises = [
         customPanelTexture ? Promise.resolve(customPanelTexture) : loadImageFromFile(getAssetPath('depth-blue')),
         customTextTexture ? Promise.resolve(customTextTexture) : loadImageFromFile(getAssetPath('depth-text')),
-        customBackgroundTile ? Promise.resolve(customBackgroundTile) : loadImageFromFile(getAssetPath('depth-darker-new'))
+        customBackgroundTile ? Promise.resolve(customBackgroundTile) : loadImageFromFile(getAssetPath('depth-yetdarker-new'))
       ];
 
       if (isFinalStyle && !isCustom) {
         promises.push(
           loadImageFromFile(getRedAssetPath('depth-blue')),
           loadImageFromFile(getRedAssetPath('depth-text')),
-          loadImageFromFile(getRedAssetPath('depth-darker-new'))
+          loadImageFromFile(getRedAssetPath('depth-yetdarker-new'))
         );
       }
-    
+
       Promise.all(promises)
       .then((results) => {
         const [tile, textBG, bgTile, redTile, redTextBG, redBgTile] = results;
-        
+
         placeholder = tile;
         backgroundTile = bgTile;
         textContainer.style.backgroundImage = `url(${textBG.toDataURL()})`;
@@ -1454,10 +1620,10 @@
             element.style.display = (isFinalStyle && !isCustom) ? 'block' : 'none';
           }
         });
-    
+
         if (maskImage) drawPanel();
         drawBackground();
-    
+
         if (!isCustom) {
           document.body.classList.toggle('susie-theme', styleSelect.value === 'susie');
           document.body.classList.toggle('final-theme', styleSelect.value === 'final');
@@ -1493,18 +1659,18 @@
     window.addEventListener('load', () => {
       const randomPanelName = getRandomPanel();
       const randomPanel = panelPresets[randomPanelName];
-      
+
       console.log(`Loading random panel: ${randomPanelName}`);
-      
+
       styleSelect.value = randomPanel.style;
       document.body.classList.toggle('susie-theme', randomPanel.style === 'susie');
       document.body.classList.toggle('final-theme', randomPanel.style === 'final');
-      
+
       textInput.value = randomPanel.text;
       const formattedText = randomPanel.text.replace(/\\n/g, '<br>');
       textContainer.innerHTML = formattedText;
       textContainerRed.innerHTML = formattedText;
-      
+
       const defaultImg = new Image();
       defaultImg.onload = () => {
         maskImage = defaultImg;
@@ -1528,7 +1694,7 @@
 
       document.getElementById("textPreview").src = getAssetPath("depth-text");
       document.getElementById("panelPreview").src = getAssetPath("depth-blue");
-      document.getElementById("bgPreview").src = getAssetPath("depth-darker-new");
+      document.getElementById("bgPreview").src = getAssetPath("depth-yetdarker-new");
     });    
 
     function animateSineWrapper() {
@@ -1540,16 +1706,16 @@
       }
       requestAnimationFrame(animateSineWrapper);
     }
-    
+
     requestAnimationFrame(animateSineWrapper);
-    
+
     styleSelect.addEventListener('change', reloadAssetsAndRedraw);
-    
+
     function toggleAdvancedSettings() {
       const div = document.getElementById("advancedSettings");
       div.style.display = div.style.display === "none" ? "block" : "none";
     }
-    
+
     document.getElementById("fontUpload").addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (file) {
@@ -1559,13 +1725,13 @@
           const customFont = new FontFace(fontName, `url(${reader.result})`);
           customFont.load().then((loadedFont) => {
             document.fonts.add(loadedFont);
-    
+
             const preview = document.getElementById("fontPreview");
             const label = document.getElementById("fontLabel");
             const previewText = document.getElementById("fontPreviewText");
             const textContainer = document.getElementById("textContainer");
             const textContainerRed = document.getElementById("textContainerRed");
-            
+
             previewText.style.fontFamily = `"${fontName}", serif`;
             label.textContent = fontName;
             label.style.fontFamily = `"${fontName}", serif`;
@@ -1576,7 +1742,7 @@
         reader.readAsDataURL(file);
       }
     });
-    
+
     document.getElementById("textTextureUpload").addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (file) {
@@ -1594,7 +1760,7 @@
         img.src = URL.createObjectURL(file);
       }
     });
-    
+
     document.getElementById("panelImageUpload").addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (file) {
@@ -1610,7 +1776,7 @@
         img.src = URL.createObjectURL(file);
       }
     });
-    
+
     document.getElementById("bgImageUpload").addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (file) {
@@ -1631,7 +1797,7 @@
 
     const fontScale = document.getElementById("fontScale");
     const fontScaleValue = document.getElementById("fontScaleValue");
-    
+
     fontScale.addEventListener("input", () => {
       const scale = parseFloat(fontScale.value).toFixed(2);
       fontScaleValue.textContent = `${scale}×`;
@@ -1652,7 +1818,7 @@
       .then(base64 => {
         const decoded = atob(base64.trim());
         const expected = 'hey there, shitlips! dont you dare even think to try and steal my fucking code!';
-  
+
         if (decoded !== expected) {
           console.warn('File contents do not match. Redirecting...');
           window.location.href = 'https://hippowatermelon.github.io/deltaprophecy/404.html';

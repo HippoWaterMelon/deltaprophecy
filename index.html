@@ -1091,78 +1091,84 @@
 
     function drawBackground() {
       if (!backgroundTile) return;
-
+    
       backgroundScrollOffset = (backgroundScrollOffset + 0.5) % backgroundTile.width;
-
+    
       bgCtx.clearRect(0, 0, 512, 256);
       bgCtx.imageSmoothingEnabled = false;
-
+    
       bgCtx.filter = 'blur(1.5px)';
-
+    
       const scale = parseFloat(imgScale.value);
       const yOffset = -parseInt(imgYOffset.value, 10);
-
-      const scaledTileWidth = backgroundTile.width * scale;
+    
+      const xStretchFactor = 1.236;
+      
+      const scaledTileWidth = backgroundTile.width * scale * xStretchFactor;
       const scaledTileHeight = backgroundTile.height * scale;
-
-      const offset = (backgroundScrollOffset * scale) % scaledTileWidth;
-
+    
+      const offset = (backgroundScrollOffset * scale * xStretchFactor) % scaledTileWidth;
+    
       for (let y = -offset + yOffset; y < 256 + scaledTileHeight + yOffset; y += scaledTileHeight) {
         for (let x = -offset; x < 512 + scaledTileWidth; x += scaledTileWidth) {
           bgCtx.drawImage(backgroundTile, x, y, scaledTileWidth, scaledTileHeight);
         }
       }
-
+    
       const canvasSize = 256; 
       const scaledW = canvasSize * scale;
       const scaledH = canvasSize * scale;
       const imageX = (512 - scaledW) / 2; 
       const imageY = 64 + yOffset; 
-
+    
       const radiusX = 160 * scale; 
       const radiusY = 100 * scale;  
-
+    
       bgCtx.save();
       bgCtx.translate(imageX + scaledW/2, imageY);
       bgCtx.scale(radiusX / radiusY, 1); 
       bgCtx.translate(-(imageX + scaledW/2), -imageY);
-
+    
       const gradient = bgCtx.createRadialGradient(imageX + scaledW/2, imageY, 0, imageX + scaledW/2, imageY, radiusY);
       gradient.addColorStop(0, 'rgba(0,0,0,0)'); 
       gradient.addColorStop(0.6, 'rgba(0,0,0,0)'); 
       gradient.addColorStop(1, 'rgba(0,0,0,1)');   
-
+    
       bgCtx.fillStyle = gradient;
       bgCtx.fillRect(0, 0, 512, 256); 
       bgCtx.restore();
-
+    
       bgCtx.filter = 'none';
-
+    
       if (backgroundTileRed) {
         bgRedCtx.clearRect(0, 0, 512, 256);
         bgRedCtx.imageSmoothingEnabled = false;
         bgRedCtx.filter = 'blur(1.5px)';
-
-        for (let y = -offset + yOffset; y < 256 + scaledTileHeight + yOffset; y += scaledTileHeight) {
-          for (let x = -offset; x < 512 + scaledTileWidth; x += scaledTileWidth) {
-            bgRedCtx.drawImage(backgroundTileRed, x, y, scaledTileWidth, scaledTileHeight);
+    
+        const redScaledTileWidth = backgroundTileRed.width * scale * xStretchFactor;
+        const redScaledTileHeight = backgroundTileRed.height * scale;
+        const redOffset = (backgroundScrollOffset * scale * xStretchFactor) % redScaledTileWidth;
+    
+        for (let y = -redOffset + yOffset; y < 256 + redScaledTileHeight + yOffset; y += redScaledTileHeight) {
+          for (let x = -redOffset; x < 512 + redScaledTileWidth; x += redScaledTileWidth) {
+            bgRedCtx.drawImage(backgroundTileRed, x, y, redScaledTileWidth, redScaledTileHeight);
           }
         }
-
+    
         bgRedCtx.save();
         bgRedCtx.translate(imageX + scaledW/2, imageY);
         bgRedCtx.scale(radiusX / radiusY, 1); 
         bgRedCtx.translate(-(imageX + scaledW/2), -imageY);
-
+    
         const redGradient = bgRedCtx.createRadialGradient(imageX + scaledW/2, imageY, 0, imageX + scaledW/2, imageY, radiusY);
         redGradient.addColorStop(0, 'rgba(0,0,0,0)'); 
         redGradient.addColorStop(0.6, 'rgba(0,0,0,0)'); 
         redGradient.addColorStop(1, 'rgba(0,0,0,1)');   
-
+    
         bgRedCtx.fillStyle = redGradient;
         bgRedCtx.fillRect(0, 0, 512, 256); 
         bgRedCtx.restore();
-
+    
         bgRedCtx.filter = 'none';
       }
     }

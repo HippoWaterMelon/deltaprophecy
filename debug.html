@@ -1102,17 +1102,15 @@
       const scale = parseFloat(imgScale.value);
       const yOffset = -parseInt(imgYOffset.value, 10);
     
-      // Add stretch factor for x-axis
-      const xStretchFactor = 2.0; // Change this value to control stretch amount
+      const xStretchFactor = 1.236;
       
-      const scaledTileWidth = backgroundTile.width * scale * xStretchFactor; // Apply x-stretch
+      const scaledTileWidth = backgroundTile.width * scale * xStretchFactor;
       const scaledTileHeight = backgroundTile.height * scale;
     
       const offset = (backgroundScrollOffset * scale * xStretchFactor) % scaledTileWidth;
     
       for (let y = -offset + yOffset; y < 256 + scaledTileHeight + yOffset; y += scaledTileHeight) {
         for (let x = -offset; x < 512 + scaledTileWidth; x += scaledTileWidth) {
-          // Draw with stretched width
           bgCtx.drawImage(backgroundTile, x, y, scaledTileWidth, scaledTileHeight);
         }
       }
@@ -1147,7 +1145,6 @@
         bgRedCtx.imageSmoothingEnabled = false;
         bgRedCtx.filter = 'blur(1.5px)';
     
-        // Apply same x-stretch to red background
         const redScaledTileWidth = backgroundTileRed.width * scale * xStretchFactor;
         const redScaledTileHeight = backgroundTileRed.height * scale;
         const redOffset = (backgroundScrollOffset * scale * xStretchFactor) % redScaledTileWidth;

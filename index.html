@@ -1017,7 +1017,7 @@
     function drawPanel() {
       if (!maskImage || !placeholder) return;
 
-      scrollOffset = (scrollOffset + 1) % placeholder.width;
+      scrollOffset = (scrollOffset - 1 + placeholder.width) % placeholder.width;
 
       const canvasSize = 256;
 
